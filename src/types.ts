@@ -26,7 +26,8 @@ export type CommandType =
   | 'SET_SUCCESS_TIME'
   | 'ADJUST_REMAINING_TIME'
   | 'PAUSE_TIMER'
-  | 'RESUME_TIMER';
+  | 'RESUME_TIMER'
+  | 'FORCE_RECOVERY_STATE';
 
 export type CommandResult = 'PENDING' | 'APPLIED' | 'REJECTED' | 'DUPLICATE';
 

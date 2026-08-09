@@ -4,6 +4,7 @@ import { getPhaseLabel } from '../phase-labels';
 import { sendCommand, subscribeStatus } from '../command-service';
 import { showConfirmDialog } from './confirm-dialog';
 import { getCommandTypeLabel } from '../rejection-labels';
+import { RecoveryTargetLabels } from '../recovery-labels';
 
 // GO_PHASES: Go有効なPhase
 const GO_PHASES = ['EXAM_IN_PROGRESS', 'MESSAGE_HISTORY', 'WAITING_AT_ZERO'];
@@ -13,6 +14,12 @@ function isLocked(cs: TeamCommandState, connStatus: ConnectionStatus, team: Team
   if (team.is_go_executed) return true;
   const s = cs.status;
   return s === 'sending' || s === 'pending' || s === 'timeout' || s === 'lock_applied' || s === 'lock_rejected' || s === 'lock_duplicate';
+}
+
+function isRecoveryLocked(cs: TeamCommandState, connStatus: ConnectionStatus): boolean {
+  if (connStatus !== 'CONNECTED') return true;
+  const s = cs.status;
+  return s === 'sending' || s === 'pending' || s === 'timeout';
 }
 
 function isGoEnabled(team: TeamState, cs: TeamCommandState, connStatus: ConnectionStatus): boolean {
@@ -259,6 +266,44 @@ function buildCardDOM(card: HTMLElement, team: TeamState) {
   detailPanel.appendChild(createDirectInputGroup('残り時間直接指定:', '残り時間を設定', 'SET_REMAINING_TIME'));
   detailPanel.appendChild(createDirectInputGroup('成功タイム直接指定:', '成功タイムを設定', 'SET_SUCCESS_TIME'));
 
+  // Recovery Section
+  const recoveryLabel = document.createElement('div');
+  recoveryLabel.className = 'action-label';
+  recoveryLabel.textContent = '▼ 緊急復旧';
+  recoveryLabel.style.marginTop = '15px';
+  recoveryLabel.style.color = '#ff6b6b';
+  detailPanel.appendChild(recoveryLabel);
+
+  const recoveryRow = document.createElement('div');
+  recoveryRow.className = 'detail-row';
+
+  const recoverySelect = document.createElement('select');
+  recoverySelect.className = 'recovery-select';
+  recoverySelect.dataset.teamId = teamId;
+  const targets = [
+    'WAITING_FOR_START', 'OPENING_INCOMING', 'OPENING_CALL', 'PRE_EXAM_WAIT',
+    'EXAM_INITIAL', 'EXAM_P1_ACCESSIBLE', 'EXAM_P2_ACCESSIBLE', 'EXAM_P3_ACCESSIBLE',
+    'MESSAGE_HISTORY', 'WAITING_AT_ZERO',
+    'ENDING_INCOMING_SUCCESS', 'ENDING_INCOMING_FAILURE',
+    'ENDING_CALL_SUCCESS', 'ENDING_CALL_FAILURE',
+    'RESULT_SUCCESS', 'RESULT_FAILURE',
+    'EXIT_GUIDANCE', 'TURNOVER_CHECK'
+  ];
+  targets.forEach(t => {
+    const opt = document.createElement('option');
+    opt.value = t;
+    opt.textContent = RecoveryTargetLabels[t] || t;
+    recoverySelect.appendChild(opt);
+  });
+  recoveryRow.appendChild(recoverySelect);
+
+  const recoveryBtn = createBtn('強制移動', 'btn-danger');
+  recoveryBtn.dataset.teamId = teamId;
+  recoveryBtn.dataset.cmdType = 'FORCE_RECOVERY_STATE';
+  recoveryRow.appendChild(recoveryBtn);
+
+  detailPanel.appendChild(recoveryRow);
+
   contentWrapper.appendChild(detailPanel);
   body.appendChild(contentWrapper);
   card.appendChild(body);
@@ -270,7 +315,7 @@ function buildCardDOM(card: HTMLElement, team: TeamState) {
   detailToggle.addEventListener('click', () => {
     const isExpanded = card.dataset.expanded === '1';
     card.dataset.expanded = isExpanded ? '0' : '1';
-    detailPanel.style.display = isExpanded ? 'none' : '';
+    detailPanel.style.display = isExpanded ? 'none' : 'block';
     detailToggle.textContent = isExpanded ? '▼ 詳細操作' : '▲ 詳細を閉じる';
   });
 }
@@ -282,7 +327,7 @@ function getLatestTeam(teamId: string): TeamState | undefined {
   return latestTeamStates[teamId];
 }
 
-async function handleCardClick(e: Event, _card: HTMLElement, getTeam: () => TeamState | undefined) {
+async function handleCardClick(e: Event, card: HTMLElement, getTeam: () => TeamState | undefined) {
   const target = e.target as HTMLElement;
   const btn = target.closest('[data-cmd-type]') as HTMLElement | null;
   if (!btn) return;
@@ -296,6 +341,18 @@ async function handleCardClick(e: Event, _card: HTMLElement, getTeam: () => Team
 
   // Check enabled state (button should already be disabled, but double-check)
   if (btn instanceof HTMLButtonElement && btn.disabled) return;
+
+  let payload: Record<string, unknown> = {};
+  if (cmdType === 'SET_REMAINING_TIME') {
+    const val = Number(btn.dataset.value);
+    if (!isNaN(val)) payload = { value: val };
+  } else if (cmdType === 'FORCE_RECOVERY_STATE') {
+    const select = card.querySelector<HTMLSelectElement>('.recovery-select');
+    if (!select) return;
+    payload = { target: select.value };
+  } else if (cmdType === 'SET_SUCCESS') {
+    payload = { value: !team.is_staff_success };
+  }
 
   if (btn.dataset.directBtn === '1') {
     const container = btn.closest('.direct-input-group') as HTMLElement;
@@ -353,24 +410,22 @@ async function handleCardClick(e: Event, _card: HTMLElement, getTeam: () => Team
     return;
   }
 
-  const needsConfirm = ['EXECUTE_GO', 'SET_REMAINING_TIME'].includes(cmdType) && btn.dataset.directBtn !== '1';
+  // Execute with confirmation
+  const needsConfirm = ['EXECUTE_GO', 'SET_REMAINING_TIME', 'SET_SUCCESS_TIME', 'PAUSE_TIMER', 'RESUME_TIMER', 'FORCE_RECOVERY_STATE'].includes(cmdType);
   if (needsConfirm) {
-    const labels: Record<string, string> = {
-      EXECUTE_GO: 'Go実行',
-      SET_REMAINING_TIME: btn.dataset.value === '0' ? '0秒にする' : '15:00に戻す',
-    };
-    const confirmed = await showConfirmDialog(teamId, labels[cmdType] ?? cmdType);
+    let confirmMsg = 'この操作を実行しますか？';
+    if (cmdType === 'EXECUTE_GO') confirmMsg = 'Goを実行してエンディング着信へ移行します。よろしいですか？';
+    else if (cmdType === 'PAUSE_TIMER') confirmMsg = 'タイマーを一時停止しますか？';
+    else if (cmdType === 'RESUME_TIMER') confirmMsg = 'タイマーを再開しますか？';
+    else if (cmdType === 'FORCE_RECOVERY_STATE') {
+      const label = RecoveryTargetLabels[payload.target as string] || payload.target;
+      confirmMsg = `${teamId}のフェーズを [${label}] へ強制移動します。\nよろしいですか？`;
+    }
+    else if (cmdType === 'SET_REMAINING_TIME') confirmMsg = '残り時間を変更します。よろしいですか？';
+    else if (cmdType === 'SET_SUCCESS_TIME') confirmMsg = '成功タイムを変更します。よろしいですか？';
+
+    const confirmed = await showConfirmDialog(teamId, confirmMsg);
     if (!confirmed) return;
-  }
-
-  let payload: Record<string, unknown> = {};
-
-  if (cmdType === 'SET_REMAINING_TIME') {
-    const val = Number(btn.dataset.value);
-    if (isNaN(val)) return;
-    payload = { value: val };
-  } else if (cmdType === 'SET_SUCCESS') {
-    payload = { value: !team.is_staff_success };
   }
 
   await sendCommand(teamId, cmdType, payload, team);
@@ -389,8 +444,6 @@ export function updateTeamCard(cardEl: HTMLElement, team: TeamState, cs: TeamCom
 
   const wrapper = card.querySelector<HTMLElement>('.card-content');
   if (wrapper) wrapper.style.display = isUnreg ? 'none' : 'block';
-
-  isLocked(cs, connStatus, team); // evaluate for side-effect (unused but needed for flow)
 
   // Status badge
   const badge = card.querySelector<HTMLElement>('.status-badge');
@@ -419,7 +472,7 @@ export function updateTeamCard(cardEl: HTMLElement, team: TeamState, cs: TeamCom
   const cmdStatus = card.querySelector<HTMLElement>('.cmd-status-label');
   if (cmdStatus) cmdStatus.textContent = getCommandStatusLabel(cs);
 
-  // Success toggle state (楽観的更新禁止: DB反映後のteamを使う)
+  // Success toggle state
   const successToggle = card.querySelector<HTMLButtonElement>('.success-toggle');
   if (successToggle) {
     successToggle.textContent = team.is_staff_success ? '成功判定: ON' : '成功判定: OFF';
@@ -467,6 +520,10 @@ function updateCommandUI(card: HTMLElement, team: TeamState, cs: TeamCommandStat
       }
     }
 
+    if (cmdType === 'FORCE_RECOVERY_STATE') {
+      enabled = !isRecoveryLocked(cs, connStatus);
+    }
+
     btn.disabled = !enabled;
     if (btn.dataset.directBtn === '1') {
       const container = btn.closest('.direct-input-group');
@@ -475,6 +532,11 @@ function updateCommandUI(card: HTMLElement, team: TeamState, cs: TeamCommandStat
           inp.disabled = !enabled;
         });
       }
+    }
+
+    if (cmdType === 'FORCE_RECOVERY_STATE') {
+      const select = btn.parentElement?.querySelector<HTMLSelectElement>('.recovery-select');
+      if (select) select.disabled = !enabled;
     }
   });
 }

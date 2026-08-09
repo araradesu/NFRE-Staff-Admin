@@ -1,0 +1,20 @@
+export const RecoveryTargetLabels: Record<string, string> = {
+  'WAITING_FOR_START': '開始待機',
+  'OPENING_INCOMING': 'オープニング着信中',
+  'OPENING_CALL': 'オープニング通話中',
+  'PRE_EXAM_WAIT': '試験開始待ち',
+  'EXAM_INITIAL': '試験中：開始直後',
+  'EXAM_P1_ACCESSIBLE': '試験中：問題1解放',
+  'EXAM_P2_ACCESSIBLE': '試験中：問題2解放',
+  'EXAM_P3_ACCESSIBLE': '試験中：問題3解放',
+  'MESSAGE_HISTORY': 'メッセージ履歴',
+  'WAITING_AT_ZERO': '試験終了待機',
+  'ENDING_INCOMING_SUCCESS': '合格の着信中',
+  'ENDING_INCOMING_FAILURE': '不合格の着信中',
+  'ENDING_CALL_SUCCESS': '合格通話中',
+  'ENDING_CALL_FAILURE': '不合格通話中',
+  'RESULT_SUCCESS': '合格結果',
+  'RESULT_FAILURE': '不合格結果',
+  'EXIT_GUIDANCE': '退出案内',
+  'TURNOVER_CHECK': '転換チェック'
+};

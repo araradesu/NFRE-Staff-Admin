@@ -65,6 +65,8 @@ function lockedCs(): TeamCommandState {
 describe('team-card', () => {
   beforeEach(() => {
     document.body.innerHTML = '';
+    vi.mocked(showConfirmDialog).mockResolvedValue(false);
+    vi.mocked(sendCommand).mockClear();
   });
 
   it('初回生成直後からCONNECTEDでは適切に操作可能', () => {
@@ -172,14 +174,17 @@ describe('team-card', () => {
     // There are text inputs now (inputmode numeric), so we don't assert allInputs.length == 0
   });
 
-  it('初回生成直後のクリックでsendCommandが呼ばれる', () => {
+  it('初回生成直後のクリックでsendCommandが呼ばれる', async () => {
     const team = makeTeam({ current_phase: 'WAITING_AT_ZERO', remaining_seconds: 10, is_staff_success: false });
     const card = createTeamCard(team);
     document.body.appendChild(card);
 
+    vi.mocked(showConfirmDialog).mockResolvedValue(true);
+
     const btn = card.querySelector<HTMLButtonElement>('[data-cmd-type="RESUME_TIMER"]')!;
     expect(btn.disabled).toBe(false);
-    btn.click();
+    await btn.click();
+    await new Promise(r => setTimeout(r, 0));
 
     expect(sendCommand).toHaveBeenCalled();
   });
@@ -230,6 +235,126 @@ describe('team-card', () => {
     const quick = card.querySelector('.card-quick-actions')!;
     const toggle = quick.querySelector('.success-toggle');
     expect(toggle).not.toBeNull();
+  });
+
+  it('緊急復旧セクションが存在する', () => {
+    const team = makeTeam();
+    const card = createTeamCard(team);
+    document.body.appendChild(card);
+
+    const select = card.querySelector<HTMLSelectElement>('.recovery-select');
+    expect(select).not.toBeNull();
+    const btn = card.querySelector<HTMLButtonElement>('button[data-cmd-type="FORCE_RECOVERY_STATE"]');
+    expect(btn).not.toBeNull();
+
+    // Test that the select contains expected options
+    expect(select!.options.length).toBeGreaterThan(10);
+    expect(Array.from(select!.options).map(o => o.value)).toContain('EXAM_P2_ACCESSIBLE');
+  });
+
+  describe('緊急復旧', () => {
+    it('正しいpayloadが送信される', async () => {
+      const team = makeTeam();
+      const card = createTeamCard(team);
+      document.body.appendChild(card);
+
+      const select = card.querySelector<HTMLSelectElement>('.recovery-select')!;
+      select.value = 'EXAM_P2_ACCESSIBLE';
+
+      const btn = card.querySelector<HTMLButtonElement>('button[data-cmd-type="FORCE_RECOVERY_STATE"]')!;
+
+      const { showConfirmDialog } = await import('./ui/confirm-dialog');
+      vi.mocked(showConfirmDialog).mockResolvedValue(true);
+
+      await btn.click();
+      await new Promise(r => setTimeout(r, 0)); // wait for async click
+
+      expect(sendCommand).toHaveBeenCalledWith(
+        'TEAM_01',
+        'FORCE_RECOVERY_STATE',
+        { target: 'EXAM_P2_ACCESSIBLE' },
+        expect.any(Object)
+      );
+    });
+
+    it('ENDING_INCOMING_SUCCESSかつIsGoExecuted=trueでも、CONNECTEDなら緊急復旧selectとボタンが有効', () => {
+      const team = makeTeam({ current_phase: 'ENDING_INCOMING_SUCCESS', is_go_executed: true });
+      const card = createTeamCard(team);
+      updateTeamCard(card, team, defaultCs());
+
+      const select = card.querySelector<HTMLSelectElement>('.recovery-select')!;
+      const btn = card.querySelector<HTMLButtonElement>('button[data-cmd-type="FORCE_RECOVERY_STATE"]')!;
+
+      expect(select.disabled).toBe(false);
+      expect(btn.disabled).toBe(false);
+    });
+
+    it('RESULT_SUCCESS / EXIT_GUIDANCE / TURNOVER_CHECKでも同様に有効', () => {
+      ['RESULT_SUCCESS', 'EXIT_GUIDANCE', 'TURNOVER_CHECK'].forEach(phase => {
+        const team = makeTeam({ current_phase: phase, is_go_executed: true });
+        const card = createTeamCard(team);
+        updateTeamCard(card, team, defaultCs());
+
+        const select = card.querySelector<HTMLSelectElement>('.recovery-select')!;
+        const btn = card.querySelector<HTMLButtonElement>('button[data-cmd-type="FORCE_RECOVERY_STATE"]')!;
+
+        expect(select.disabled, `${phase} select should be enabled`).toBe(false);
+        expect(btn.disabled, `${phase} btn should be enabled`).toBe(false);
+      });
+    });
+
+    it('APPLIED後に緊急復旧が再度可能', () => {
+      const team = makeTeam();
+      const card = createTeamCard(team);
+      updateTeamCard(card, team, { ...defaultCs(), status: 'applied' });
+
+      const select = card.querySelector<HTMLSelectElement>('.recovery-select')!;
+      const btn = card.querySelector<HTMLButtonElement>('button[data-cmd-type="FORCE_RECOVERY_STATE"]')!;
+
+      expect(select.disabled).toBe(false);
+      expect(btn.disabled).toBe(false);
+    });
+
+    it('PENDING / sending / timeout中は無効', () => {
+      const team = makeTeam();
+      const card = createTeamCard(team);
+
+      ['pending', 'sending', 'timeout'].forEach(status => {
+        updateTeamCard(card, team, { ...defaultCs(), status: status as any });
+        const select = card.querySelector<HTMLSelectElement>('.recovery-select')!;
+        const btn = card.querySelector<HTMLButtonElement>('button[data-cmd-type="FORCE_RECOVERY_STATE"]')!;
+        expect(select.disabled, `${status} should disable select`).toBe(true);
+        expect(btn.disabled, `${status} should disable btn`).toBe(true);
+      });
+    });
+
+    it('DELAYED / DISCONNECTED時は無効', () => {
+      ['DELAYED', 'DISCONNECTED'].forEach(connStatus => {
+        // Set last_seen_at to be in the past to trigger DELAYED / DISCONNECTED
+        const past = new Date();
+        if (connStatus === 'DELAYED') past.setSeconds(past.getSeconds() - 15);
+        if (connStatus === 'DISCONNECTED') past.setSeconds(past.getSeconds() - 25);
+
+        const team = makeTeam({ last_seen_at: past.toISOString() });
+        const card = createTeamCard(team);
+        updateTeamCard(card, team, defaultCs());
+
+        const select = card.querySelector<HTMLSelectElement>('.recovery-select')!;
+        const btn = card.querySelector<HTMLButtonElement>('button[data-cmd-type="FORCE_RECOVERY_STATE"]')!;
+
+        expect(select.disabled, `${connStatus} should disable select`).toBe(true);
+        expect(btn.disabled, `${connStatus} should disable btn`).toBe(true);
+      });
+    });
+
+    it('日本語表示名がselectに表示される', () => {
+      const team = makeTeam();
+      const card = createTeamCard(team);
+      const select = card.querySelector<HTMLSelectElement>('.recovery-select')!;
+
+      const option = Array.from(select.options).find(o => o.value === 'WAITING_FOR_START')!;
+      expect(option.textContent).toBe('開始待機');
+    });
   });
 
   it('CommandTypeと結果が同時表示される', () => {

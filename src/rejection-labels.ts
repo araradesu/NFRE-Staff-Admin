@@ -25,8 +25,9 @@ const COMMAND_TYPE_LABELS: Record<string, string> = {
   SET_REMAINING_TIME: '残り時間設定',
   SET_SUCCESS_TIME: '成功タイム設定',
   ADJUST_REMAINING_TIME: '残り時間調整',
-  PAUSE_TIMER: '一時停止',
-  RESUME_TIMER: '再開',
+  PAUSE_TIMER: 'タイマー一時停止',
+  RESUME_TIMER: 'タイマー再開',
+  FORCE_RECOVERY_STATE: '強制移動'
 };
 
 export function getCommandTypeLabel(type: string | null | undefined): string {
