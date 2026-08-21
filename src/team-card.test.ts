@@ -134,6 +134,21 @@ describe('team-card', () => {
     expect(goBtn!.disabled).toBe(true);
   });
 
+  it('PRE_EXAM_WAITではGoボタンが試験開始として有効になる', () => {
+    const team = makeTeam({
+      current_phase: 'PRE_EXAM_WAIT',
+      is_staff_success: false,
+      remaining_seconds: 300,
+    });
+    const card = createTeamCard(team);
+    document.body.appendChild(card);
+    updateTeamCard(card, team, defaultCs());
+
+    const goBtn = card.querySelector<HTMLButtonElement>('[data-cmd-type="EXECUTE_GO"]')!;
+    expect(goBtn.textContent).toBe('試験開始');
+    expect(goBtn.disabled).toBe(false);
+  });
+
   it('詳細パネルの開閉状態が更新後も維持される', () => {
     const team = makeTeam();
     const card = createTeamCard(team);

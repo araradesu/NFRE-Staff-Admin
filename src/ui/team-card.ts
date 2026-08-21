@@ -24,6 +24,7 @@ function isRecoveryLocked(cs: TeamCommandState, connStatus: ConnectionStatus): b
 
 function isGoEnabled(team: TeamState, cs: TeamCommandState, connStatus: ConnectionStatus): boolean {
   if (isLocked(cs, connStatus, team)) return false;
+  if (team.current_phase === 'PRE_EXAM_WAIT') return true;
   if (!GO_PHASES.includes(team.current_phase)) return false;
   if (team.is_staff_success) return true;
   return team.remaining_seconds <= 0;
@@ -157,7 +158,7 @@ function buildCardDOM(card: HTMLElement, team: TeamState) {
   quick.appendChild(successToggle);
 
   // Go button
-  const goBtn = createBtn('Go実行', 'btn-danger');
+  const goBtn = createBtn(team.current_phase === 'PRE_EXAM_WAIT' ? '試験開始' : 'Go実行', 'btn-danger');
   goBtn.dataset.teamId = teamId;
   goBtn.dataset.cmdType = 'EXECUTE_GO';
 
@@ -414,7 +415,11 @@ async function handleCardClick(e: Event, card: HTMLElement, getTeam: () => TeamS
   const needsConfirm = ['EXECUTE_GO', 'SET_REMAINING_TIME', 'SET_SUCCESS_TIME', 'PAUSE_TIMER', 'RESUME_TIMER', 'FORCE_RECOVERY_STATE'].includes(cmdType);
   if (needsConfirm) {
     let confirmMsg = 'この操作を実行しますか？';
-    if (cmdType === 'EXECUTE_GO') confirmMsg = 'Goを実行してエンディング着信へ移行します。よろしいですか？';
+      if (cmdType === 'EXECUTE_GO') {
+        confirmMsg = team.current_phase === 'PRE_EXAM_WAIT'
+          ? '試験を開始します。よろしいですか？'
+          : 'Goを実行してエンディング着信へ移行します。よろしいですか？';
+      }
     else if (cmdType === 'PAUSE_TIMER') confirmMsg = 'タイマーを一時停止しますか？';
     else if (cmdType === 'RESUME_TIMER') confirmMsg = 'タイマーを再開しますか？';
     else if (cmdType === 'FORCE_RECOVERY_STATE') {
@@ -505,6 +510,9 @@ function updateCommandUI(card: HTMLElement, team: TeamState, cs: TeamCommandStat
   // All cmd-btn and success-toggle
   card.querySelectorAll<HTMLButtonElement>('[data-cmd-type]').forEach(btn => {
     const cmdType = btn.dataset.cmdType;
+    if (cmdType === 'EXECUTE_GO') {
+      btn.textContent = team.current_phase === 'PRE_EXAM_WAIT' ? '試験開始' : 'Go実行';
+    }
     let enabled = !locked;
 
     if (enabled) {
