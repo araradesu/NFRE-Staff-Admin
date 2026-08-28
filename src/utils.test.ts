@@ -9,7 +9,7 @@ describe('formatTimeMMSS', () => {
     expect(formatTimeMMSS(60)).toBe('01:00');
     expect(formatTimeMMSS(600)).toBe('10:00');
     expect(formatTimeMMSS(900)).toBe('15:00');
-    expect(formatTimeMMSS(12.5)).toBe('00:12'); // handles fractions
+    expect(formatTimeMMSS(12.5)).toBe('00:13'); // handles fractions with ceil
   });
 
   it('handles negative, NaN or Infinity gracefully', () => {

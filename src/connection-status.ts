@@ -1,9 +1,10 @@
 import type { ConnectionStatus } from './types';
 
 export function formatTimeMMSS(seconds: number): string {
-  if (isNaN(seconds) || seconds < 0 || !Number.isFinite(seconds)) return '00:00';
-  const m = Math.floor(seconds / 60);
-  const s = Math.floor(seconds % 60);
+  if (isNaN(seconds) || seconds <= 0 || !Number.isFinite(seconds)) return '00:00';
+  const total = Math.ceil(seconds);
+  const m = Math.floor(total / 60);
+  const s = total % 60;
   return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
 }
 

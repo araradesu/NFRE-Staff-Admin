@@ -11,7 +11,7 @@ const GO_PHASES = ['EXAM_IN_PROGRESS', 'MESSAGE_HISTORY', 'WAITING_AT_ZERO'];
 
 function isLocked(cs: TeamCommandState, connStatus: ConnectionStatus, team: TeamState): boolean {
   if (connStatus !== 'CONNECTED') return true;
-  if (team.is_go_executed) return true;
+  if (team.is_go_executed && team.current_phase !== 'EXIT_GUIDANCE') return true;
   const s = cs.status;
   return s === 'sending' || s === 'pending' || s === 'timeout' || s === 'lock_applied' || s === 'lock_rejected' || s === 'lock_duplicate';
 }
@@ -25,6 +25,7 @@ function isRecoveryLocked(cs: TeamCommandState, connStatus: ConnectionStatus): b
 function isGoEnabled(team: TeamState, cs: TeamCommandState, connStatus: ConnectionStatus): boolean {
   if (isLocked(cs, connStatus, team)) return false;
   if (team.current_phase === 'PRE_EXAM_WAIT') return true;
+  if (team.current_phase === 'EXIT_GUIDANCE') return true;
   if (!GO_PHASES.includes(team.current_phase)) return false;
   if (team.is_staff_success) return true;
   return team.remaining_seconds <= 0;
@@ -237,6 +238,9 @@ function buildCardDOM(card: HTMLElement, team: TeamState) {
     secInput.placeholder = '秒';
     secInput.style.width = '40px';
 
+    minInput.addEventListener('input', () => { container.dataset.clearedForApplied = '1'; });
+    secInput.addEventListener('input', () => { container.dataset.clearedForApplied = '1'; });
+
     const btn = document.createElement('button');
     btn.className = 'btn-primary cmd-btn';
     btn.textContent = btnLabel;
@@ -416,9 +420,13 @@ async function handleCardClick(e: Event, card: HTMLElement, getTeam: () => TeamS
   if (needsConfirm) {
     let confirmMsg = 'この操作を実行しますか？';
       if (cmdType === 'EXECUTE_GO') {
-        confirmMsg = team.current_phase === 'PRE_EXAM_WAIT'
-          ? '試験を開始します。よろしいですか？'
-          : 'Goを実行してエンディング着信へ移行します。よろしいですか？';
+        if (team.current_phase === 'PRE_EXAM_WAIT') {
+          confirmMsg = '試験を開始します。よろしいですか？';
+        } else if (team.current_phase === 'EXIT_GUIDANCE') {
+          confirmMsg = '転換チェック画面へ移行します。よろしいですか？';
+        } else {
+          confirmMsg = 'Goを実行してエンディング着信へ移行します。よろしいですか？';
+        }
       }
     else if (cmdType === 'PAUSE_TIMER') confirmMsg = 'タイマーを一時停止しますか？';
     else if (cmdType === 'RESUME_TIMER') confirmMsg = 'タイマーを再開しますか？';
@@ -484,20 +492,26 @@ export function updateTeamCard(cardEl: HTMLElement, team: TeamState, cs: TeamCom
     successToggle.className = `success-toggle ${team.is_staff_success ? 'active' : ''}`;
   }
 
-  // APPLIED になった入力欄をクリアする
+  // APPLIED になった入力欄をクリアする（同一の applied 状態につき1回のみクリア）
   if (cs.status === 'applied') {
     if (cs.commandType === 'SET_REMAINING_TIME' || cs.commandType === 'SET_SUCCESS_TIME') {
       const btn = card.querySelector<HTMLButtonElement>(`button[data-cmd-type="${cs.commandType}"][data-direct-btn="1"]`);
       if (btn) {
-        const container = btn.closest('.direct-input-group');
-        if (container) {
+        const container = btn.closest('.direct-input-group') as HTMLElement;
+        if (container && container.dataset.clearedForApplied !== '1') {
+          container.dataset.clearedForApplied = '1';
           const m = container.querySelector('.min-input') as HTMLInputElement;
           const s = container.querySelector('.sec-input') as HTMLInputElement;
-          if (m) m.value = '';
-          if (s) s.value = '';
+          if (m && document.activeElement !== m) m.value = '';
+          if (s && document.activeElement !== s) s.value = '';
         }
       }
     }
+  } else {
+    // applied 以外の状態（idle, sending 等）になったらクリアフラグをリセット
+    card.querySelectorAll<HTMLElement>('.direct-input-group').forEach(group => {
+      delete group.dataset.clearedForApplied;
+    });
   }
 
   updateCommandUI(card, team, cs);
@@ -511,7 +525,13 @@ function updateCommandUI(card: HTMLElement, team: TeamState, cs: TeamCommandStat
   card.querySelectorAll<HTMLButtonElement>('[data-cmd-type]').forEach(btn => {
     const cmdType = btn.dataset.cmdType;
     if (cmdType === 'EXECUTE_GO') {
-      btn.textContent = team.current_phase === 'PRE_EXAM_WAIT' ? '試験開始' : 'Go実行';
+      if (team.current_phase === 'PRE_EXAM_WAIT') {
+        btn.textContent = '試験開始';
+      } else if (team.current_phase === 'EXIT_GUIDANCE') {
+        btn.textContent = '転換チェックへ';
+      } else {
+        btn.textContent = 'Go実行';
+      }
     }
     let enabled = !locked;
 

@@ -149,6 +149,22 @@ describe('team-card', () => {
     expect(goBtn.disabled).toBe(false);
   });
 
+  it('EXIT_GUIDANCEではis_go_executedがtrueでもGoボタンが転換チェックへとして有効になる', () => {
+    const team = makeTeam({
+      current_phase: 'EXIT_GUIDANCE',
+      is_go_executed: true,
+      is_staff_success: true,
+      remaining_seconds: 0,
+    });
+    const card = createTeamCard(team);
+    document.body.appendChild(card);
+    updateTeamCard(card, team, defaultCs());
+
+    const goBtn = card.querySelector<HTMLButtonElement>('[data-cmd-type="EXECUTE_GO"]')!;
+    expect(goBtn.textContent).toBe('転換チェックへ');
+    expect(goBtn.disabled).toBe(false);
+  });
+
   it('詳細パネルの開閉状態が更新後も維持される', () => {
     const team = makeTeam();
     const card = createTeamCard(team);
