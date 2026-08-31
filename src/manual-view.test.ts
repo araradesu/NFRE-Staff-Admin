@@ -21,6 +21,9 @@ describe('staff manual', () => {
     expect(view.textContent).toContain('最終行動の対応');
     expect(view.textContent).toContain('平山……海……先生のか。');
     expect(view.textContent).toContain('「けっさく」のピースだけが入った小物入れを、会場の床に落とす。');
+    expect(view.textContent).toContain('エラーコードについて呼ばれた');
+    expect(view.textContent).toContain('この対応は必須ではない。');
+    expect(view.textContent).toContain('タイマーを一時停止・再開したことを伝えない。');
     expect(view.textContent).not.toContain('未登録');
   });
 
