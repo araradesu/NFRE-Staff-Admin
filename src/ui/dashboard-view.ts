@@ -3,7 +3,7 @@ import type { TeamState } from '../types';
 import { createTeamCard, updateTeamCard } from './team-card';
 import { getCommandStatus } from '../command-service';
 
-export function createDashboardView(): HTMLElement {
+export function createDashboardView(onOpenManual?: () => void): HTMLElement {
   const container = document.createElement('div');
   container.className = 'dashboard-container';
 
@@ -24,8 +24,19 @@ export function createDashboardView(): HTMLElement {
     }
   });
 
+  const manualBtn = document.createElement('button');
+  manualBtn.type = 'button';
+  manualBtn.textContent = 'マニュアル';
+  manualBtn.className = 'btn-secondary';
+  manualBtn.addEventListener('click', () => onOpenManual?.());
+
+  const headerActions = document.createElement('div');
+  headerActions.className = 'header-actions';
+  headerActions.appendChild(manualBtn);
+  headerActions.appendChild(logoutBtn);
+
   header.appendChild(title);
-  header.appendChild(logoutBtn);
+  header.appendChild(headerActions);
 
   const errorContainer = document.createElement('div');
   errorContainer.id = 'dashboard-error';

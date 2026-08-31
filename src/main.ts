@@ -2,7 +2,8 @@ import './styles.css';
 import { initAuth, handleVisibilityForAuth } from './auth';
 import { createLoginView } from './ui/login-view';
 import { createDashboardView, updateDashboardStates } from './ui/dashboard-view';
-import { startPolling } from './state-service';
+import { createManualView } from './ui/manual-view';
+import { startPolling, stopPolling } from './state-service';
 
 const app = document.getElementById('app')!;
 
@@ -12,9 +13,17 @@ export function renderLogin() {
 }
 
 export function renderDashboard() {
+  stopPolling();
   app.innerHTML = '';
-  app.appendChild(createDashboardView());
+  app.appendChild(createDashboardView(renderManual));
   startPolling(updateDashboardStates);
+}
+
+export function renderManual() {
+  stopPolling();
+  app.innerHTML = '';
+  app.appendChild(createManualView({ onBack: renderDashboard }));
+  window.scrollTo({ top: 0, behavior: 'instant' });
 }
 
 export function showError(message: string) {
@@ -38,8 +47,11 @@ if (typeof document !== 'undefined') {
 
 const url = import.meta.env.VITE_SUPABASE_URL;
 const key = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+const isManualPreview = import.meta.env.DEV && new URLSearchParams(window.location.search).has('manual-preview');
 
-if (!url || !key) {
+if (isManualPreview) {
+  renderManual();
+} else if (!url || !key) {
   app.innerHTML = '';
   const errContainer = document.createElement('div');
   errContainer.style.padding = '20px';
