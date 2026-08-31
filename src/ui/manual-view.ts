@@ -30,7 +30,7 @@ export function createManualView({ onBack }: ManualViewOptions): HTMLElement {
         <a href="#manual-flow">本番の流れ</a>
         <a href="#manual-dashboard">管理画面</a>
         <a href="#manual-shortcuts">ショートカット</a>
-        <a href="#manual-irregular">イレギュラー対応</a>
+        <a href="#manual-irregular">最終行動</a>
         <a href="#manual-trouble">トラブル</a>
       </nav>
     </div>
@@ -48,9 +48,9 @@ export function createManualView({ onBack }: ManualViewOptions): HTMLElement {
           <div class="manual-card-label">開始前</div>
           <h3>1．接続と会場を確認</h3>
           <ul class="manual-checklist">
-            <li>TEAM_01～03が緑色の「接続中」になっている</li>
+            <li>使用するTEAMが緑色の「接続中」になっている</li>
             <li>各PCが「開始待機」になっている</li>
-            <li>机上のピース・小物入れ・手帳・ペンを初期位置へ戻した</li>
+            <li>アイテム全てを初期位置へ戻した</li>
             <li>参加者の荷物を荷物置き場へ移動してもらった</li>
           </ul>
         </article>
@@ -59,16 +59,15 @@ export function createManualView({ onBack }: ManualViewOptions): HTMLElement {
           <div class="manual-card-label">導入演出</div>
           <h3>2．ペンと手帳の落とし物</h3>
           <div class="manual-script">
-            <p class="stage-direction">ペンだけを先に見つけ、参加者の私物だと思ってさらっと聞く。</p>
             <blockquote>「このペン落ちてますけど、どなたのですか？」</blockquote>
-            <p class="stage-direction">違うと言われたら、無記名落とし物ボックスへ入れる。</p>
-            <blockquote>「あ、そうですか、すみませんね……」<small>（小声）「誰の落とし物……？」</small></blockquote>
-            <p class="stage-direction">戻りながら、部屋の最終確認をするふりをする。</p>
-            <blockquote>「すみませんね、ちょっと時間かかりましてー……」</blockquote>
-            <p class="stage-direction">手帳を見つけ、落とし物の多さに呆れ笑いする。</p>
-            <blockquote>「お…………こーれは皆さんの物じゃ……ない……？ ですかね？」</blockquote>
-            <p class="stage-direction">裏面を見て、読みながら平山 海先生の物だと気付く。</p>
-            <blockquote>「平山……海……先生のか……。」</blockquote>
+            <p class="stage-direction">違うと言われたら、軽く謝って無記名落とし物ボックスへ入れに行く。</p>
+            <blockquote>「あ、そうですか、失礼しました。」</blockquote>
+            <p class="stage-direction">戻りながら、ほかに落とし物がないか確認する。</p>
+            <blockquote>「すみませんね、時間かかりまして。」</blockquote>
+            <p class="stage-direction">手帳を見つけ、落とし物の多さにあきれ笑いする。</p>
+            <blockquote>「え～……これは皆さんの物じゃ……ないですかね？」</blockquote>
+            <p class="stage-direction">手帳の裏面を見て、読みながら平山 海先生の物だと気付く。</p>
+            <blockquote>「平山……海……先生のか。」</blockquote>
             <p class="stage-direction">「この人」で裏面をしれっと参加者側へ向ける。</p>
             <blockquote>「一旦今から試験始めますね。で、始まったらこの人に手帳渡してくるんで、ちょっとスタッフいなくなります。その間、立ち歩いたり、カンニングしたりしないようにお願いします。では、画面をご覧ください。」</blockquote>
           </div>
@@ -79,32 +78,33 @@ export function createManualView({ onBack }: ManualViewOptions): HTMLElement {
           <h3>3．管理画面から開始</h3>
           <ol>
             <li>対象チームが「試験開始待ち」になったことを確認する。</li>
-            <li>対象チームの赤い「試験開始」を押す。</li>
+            <li>対象チームの「試験開始」を押す。</li>
             <li>確認画面でもう一度「実行」を押す。</li>
             <li>5カウント後、残り15:00から試験が始まったことを確認する。</li>
           </ol>
-          <p class="manual-note">別チームのカードを押さないよう、チーム番号を声に出してから操作する。</p>
+          <p class="manual-note">別チームのカードを押さないように注意すること。</p>
         </article>
 
         <article class="manual-entry manual-card">
           <div class="manual-card-label">試験中</div>
-          <h3>4．基本は監視だけ</h3>
+          <h3>4．進行を監視する</h3>
           <ul>
             <li>残り時間・現在フェーズ・接続状態を確認する。</li>
             <li>通常進行中は「詳細操作」を開かない。</li>
             <li>参加者から答えや解き方を聞かれても回答しない。</li>
-            <li>安全・体調・機器トラブルはゲーム判定より優先する。</li>
+            <li>画面停止や操作不能などの機器トラブルに気付いたら、参加者から呼ばれるのを待たずに自分から対応しに行く。</li>
+            <li>安全・体調・機器トラブルへの対応は、ゲーム判定より優先する。</li>
           </ul>
         </article>
 
         <article class="manual-entry manual-card manual-card-success">
           <div class="manual-card-label">成功</div>
-          <h3>5．正しい提出物を受け取った</h3>
+          <h3>5．正しい最終行動を確認した</h3>
           <ol>
-            <li>台詞を挟まず、正しい小物入れを持っていく。</li>
+            <li>台詞を挟まず、正しい小物入れを持って会場を出る。</li>
             <li>対象チームの「成功判定」をONにする。</li>
-            <li>成功時間が固定されたことを確認する。</li>
-            <li>対象チームの「Go実行」を押す。</li>
+            <li>成功時間が固定されたことを確認し、必要なら修正する。</li>
+            <li>少し時間を空けて、対象チームの「Go実行」を押す。</li>
           </ol>
           <p class="manual-note">Goを押すとエンディングが確定する。必ずチーム番号と成功判定を確認する。</p>
         </article>
@@ -143,12 +143,11 @@ export function createManualView({ onBack }: ManualViewOptions): HTMLElement {
             <div><span class="status-dot status-green"></span><strong>接続中</strong><small>最終通信から10秒以内。通常操作可能。</small></div>
             <div><span class="status-dot status-orange"></span><strong>遅延</strong><small>最終通信から11～20秒。連打せず待つ。</small></div>
             <div><span class="status-dot status-red"></span><strong>切断</strong><small>20秒を超えて通信なし。PCと回線を確認。</small></div>
-            <div><span class="status-dot status-gray"></span><strong>未登録</strong><small>PCがまだ接続されていない。</small></div>
           </div>
         </article>
 
         <article class="manual-entry manual-card">
-          <h3>常時表示される操作</h3>
+          <h3>通常操作</h3>
           <dl class="manual-definition-list">
             <div><dt>成功判定</dt><dd>ONにした瞬間の経過時間を成功タイムとして固定する。Go前なら変更可能。</dd></div>
             <div><dt>試験開始</dt><dd>「試験開始待ち」のチームで表示される。5カウントを開始する。</dd></div>
@@ -184,24 +183,19 @@ export function createManualView({ onBack }: ManualViewOptions): HTMLElement {
       <section class="manual-section" id="manual-shortcuts" data-manual-section>
         <div class="manual-section-heading">
           <span class="manual-section-number">03</span>
-          <div><h2>PC側ショートカット</h2><p>参加者用PCでスタッフが使用</p></div>
+          <div><h2>PC側ショートカット</h2><p>通常進行では操作しない</p></div>
         </div>
 
-        <article class="manual-entry manual-card manual-card-accent">
-          <h3>本番で使用するもの</h3>
+        <article class="manual-entry manual-card manual-card-warning">
+          <h3>必要な場合だけ使用する</h3>
+          <p class="manual-note">ショートカットはすべて通常進行では使用しない。復旧・動作確認・スタッフ操作が必要な場合に限って使用する。</p>
           <div class="shortcut-list">
             <div><kbd>Ctrl</kbd><span>＋</span><kbd>Shift</kbd><span>＋</span><kbd>F12</kbd><strong>1秒長押し</strong><p>ローカル管理者メニューを開く／閉じる。</p></div>
             <div><kbd>Esc</kbd><p>管理者メニューまたは確認画面を閉じる。</p></div>
             <div><kbd>Ctrl</kbd><span>＋</span><strong>左クリック</strong><p>通話・プロローグの文字送りや待機を即時スキップする。</p></div>
             <div><kbd>Enter</kbd><span>／</span><kbd>Space</kbd><p>操作説明画面で「次へ」と同じ動作。</p></div>
-          </div>
-        </article>
-
-        <article class="manual-entry manual-card manual-card-danger">
-          <h3>開発用・本番では使用禁止</h3>
-          <div class="shortcut-list">
-            <div><kbd>Ctrl</kbd><span>＋</span><kbd>Shift</kbd><span>＋</span><kbd>F11</kbd><p>試験開始待ちから試験中へ直接移動するデバッグ操作。</p></div>
-            <div><kbd>F10</kbd><p>デバッグ情報画面を表示する。</p></div>
+            <div class="shortcut-danger"><kbd>Ctrl</kbd><span>＋</span><kbd>Shift</kbd><span>＋</span><kbd>F11</kbd><p>試験開始待ちから試験中へ直接移動する開発用操作。本番では使用しない。</p></div>
+            <div class="shortcut-danger"><kbd>F10</kbd><p>デバッグ情報画面を表示する開発用操作。本番では使用しない。</p></div>
           </div>
         </article>
       </section>
@@ -209,34 +203,95 @@ export function createManualView({ onBack }: ManualViewOptions): HTMLElement {
       <section class="manual-section" id="manual-irregular" data-manual-section>
         <div class="manual-section-heading">
           <span class="manual-section-number">04</span>
-          <div><h2>イレギュラー対応</h2><p>迷ったら、答えを教えず安全を優先</p></div>
+          <div><h2>最終行動の対応</h2><p>正解行動・別解・不正解行動</p></div>
         </div>
 
         <article class="manual-entry manual-card manual-card-success">
-          <h3>正しい小物入れが提出された</h3>
-          <p><strong>条件：</strong>「けっさく」のピース1枚が入り、裏面に「鈴木 優希」と記名されている。</p>
-          <blockquote>台詞なし</blockquote>
-          <p>裏面と中身を確認するふりをして、無言で持っていく。直接手渡された場合も成功扱い。</p>
+          <div class="manual-card-label">正解行動</div>
+          <h3>参加者が行う正式な最終行動</h3>
+          <blockquote>「けっさく」のピースだけが入った小物入れを、会場の床に落とす。</blockquote>
+          <p><strong>判定条件：</strong>小物入れの裏面に「鈴木 優希」と記名され、中には「けっさく」のピースが1枚だけ入っていること。</p>
+        </article>
+
+        <article class="manual-entry manual-card manual-card-accent">
+          <div class="manual-card-label">共通の初動</div>
+          <h3>何か物が落とされたら</h3>
+          <ol>
+            <li>落とされた物を拾い上げる。</li>
+            <li>入れ物であれば、参加者に見せつけないよう自然に中身を確認する。</li>
+            <li>裏面などに記名がある場合は、その名前も確認する。</li>
+            <li>下記の「正解の場合」または「不正解行動集」に沿って対応する。</li>
+          </ol>
+        </article>
+
+        <article class="manual-entry manual-card manual-card-success">
+          <div class="manual-card-label">正解の場合</div>
+          <h3>無言で持って会場を出る</h3>
+          <ol>
+            <li>参加者には何も言わず、小物入れを持って会場を出る。</li>
+            <li>対象チームの「成功判定」をONにする。</li>
+            <li>必要に応じて、最終行動を行った時点の成功タイムへ修正する。</li>
+            <li>少し時間を空けて「Go実行」を押し、成功エンディングを流す。</li>
+            <li>成功エンディングが始まってから会場へ戻る。</li>
+          </ol>
+          <p class="manual-note">成功判定・成功タイム・対象チームを確認してからGoを実行すること。</p>
+        </article>
+
+        <article class="manual-entry manual-card manual-card-success">
+          <div class="manual-card-label">別解</div>
+          <h3>正しい小物入れをスタッフへ直接渡された</h3>
+          <p class="manual-examples">「けっさく」のピースだけが入った正しい小物入れを渡され、「渡してほしい」「落としていた」と言われた場合。</p>
+          <blockquote>「落とし物ですかね？ ありがとうございます。渡してきますね。」</blockquote>
+          <ol>
+            <li>小物入れを持って会場を出る。</li>
+            <li>対象チームの「成功判定」をONにする。</li>
+            <li>必要に応じて成功タイムを修正する。</li>
+            <li>少し時間を空けて「Go実行」を押し、成功エンディングを流す。</li>
+            <li>成功エンディングが始まってから会場へ戻る。</li>
+          </ol>
+        </article>
+
+        <article class="manual-entry manual-card manual-card-danger manual-subheading-card">
+          <div class="manual-card-label">不正解行動集</div>
+          <h3>以下は成功判定を押さない</h3>
+          <p>間違っている理由や正しい提出方法は説明せず、それぞれの台詞に沿って対応する。</p>
         </article>
 
         <article class="manual-entry manual-card">
-          <h3>記名のない物・ピースだけを渡された</h3>
-          <blockquote>「記名が確認できないため、こちらで一時保管しますね。」</blockquote>
-          <p>「記名のない拾得物 一時保管箱」へ入れる。制限時間内に参加者が返却を求めたら返す。</p>
+          <h3>記名のない物・ピースだけを落とされた</h3>
+          <ol>
+            <li>落とされた物を持って参加者の元へ行く。</li>
+            <li><blockquote>「こちら、皆さんの物ですか？」</blockquote></li>
+            <li>否定されても、確認のためもう一度聞く。<blockquote>「本当に皆さんの物ではないんですね？」</blockquote></li>
+            <li>再び自分たちの物ではないと言われたら、<blockquote>「分かりました。名前が書かれていないので、一度預かっておきますね。」</blockquote></li>
+            <li>無記名落とし物ボックスへ入れる。</li>
+          </ol>
+          <p class="manual-note">参加者が返却を求めた場合は返す。</p>
         </article>
 
         <article class="manual-entry manual-card">
-          <h3>スタッフへ直接届けるよう頼まれた</h3>
-          <p class="manual-examples">例：「これを鈴木先生に届けて」「落とし物として無理なら普通に渡して」</p>
-          <blockquote>「申し訳ありませんが、個別のご依頼による物品のお届けはお引き受けできません。」</blockquote>
-          <p>ただし、正しく記名された小物入れは拾得物として受け取り、成功扱いにする。</p>
+          <h3>違う入れ物に入った物を落とされた</h3>
+          <ol>
+            <li>落とされた物を持って参加者の元へ行く。</li>
+            <li><blockquote>「こちら、皆さんの物ですか？」</blockquote></li>
+            <li>否定されても、確認のためもう一度聞く。<blockquote>「本当に皆さんの物ではないんですね？」</blockquote></li>
+            <li>再び自分たちの物ではないと言われたら、<blockquote>「分かりました。では、この方に届けてきますね。」</blockquote></li>
+            <li>物を持って会場を出る。成功判定は押さない。</li>
+          </ol>
+        </article>
+
+        <article class="manual-entry manual-card">
+          <h3>記名のない物を、特定の人へ届けるよう頼まれた</h3>
+          <p class="manual-examples">記名のない物やピースだけを渡され、「○○先生に届けてほしい」「○○先生が落とした」と言われた場合。</p>
+          <blockquote>「名前のないものは、取り違え防止のため学校が預かる決まりでして……。」</blockquote>
+          <blockquote>「これがその方の物である証拠があればお届けできるんですが……。」</blockquote>
+          <p>物は受け取らず、参加者へ返す。</p>
         </article>
 
         <article class="manual-entry manual-card">
           <h3>答え・先生・正誤を質問された</h3>
           <p class="manual-examples">例：「答えは傑作？」「どちらの鈴木先生？」「このピースで合ってる？」</p>
-          <blockquote>「スタッフは試験内容や担当者を知らされていないため、解答や正誤についてはお答えできません。画面や会場内の情報からご判断ください。」</blockquote>
-          <p>スタッフは学校の先生の名前自体は知っているが、誰が試験担当者なのかは知らない設定。</p>
+          <blockquote>「スタッフは試験内容や担当者を知らされていないため、解答や正誤に関してはお答えできません。」</blockquote>
         </article>
 
         <article class="manual-entry manual-card">
@@ -244,31 +299,37 @@ export function createManualView({ onBack }: ManualViewOptions): HTMLElement {
           <blockquote>「取ってきますね。」</blockquote>
           <p>可能な限り返却する。参加者の満足度を優先し、間違いの内容は説明しない。</p>
         </article>
-
-        <article class="manual-entry manual-card manual-card-warning">
-          <h3>本物の私物・危険行為・体調不良</h3>
-          <ul>
-            <li><strong>本物の私物：</strong>すぐ返却し、ゲーム判定に使用しない。</li>
-            <li><strong>物を投げた：</strong>「危険ですので、床へ静かに置いてください。」</li>
-            <li><strong>体調不良：</strong>タイマーを一時停止し、安全確保と退出対応を優先する。</li>
-          </ul>
-        </article>
-
-        <article class="manual-entry manual-card manual-do-not-say">
-          <h3>言ってはいけない台詞</h3>
-          <div class="manual-chip-list">
-            <span>中身が違います</span><span>ピースが多いです</span><span>その入れ物ではありません</span>
-            <span>名前が必要です</span><span>惜しいです</span><span>それだと失敗です</span>
-            <span>正解です</span><span>小物入れに入れてください</span><span>メッセージ履歴を見てください</span>
-          </div>
-        </article>
       </section>
 
       <section class="manual-section" id="manual-trouble" data-manual-section>
         <div class="manual-section-heading">
           <span class="manual-section-number">05</span>
-          <div><h2>トラブル対応</h2><p>焦って連打しない</p></div>
+          <div><h2>トラブル対応</h2><p>人の安全を最優先し、操作は連打しない</p></div>
         </div>
+
+        <article class="manual-entry manual-card manual-card-warning">
+          <h3>本物の私物が落ちていた</h3>
+          <p>財布・スマートフォン・鍵など、参加者の本物の私物はゲームの最終行動として扱わない。</p>
+          <blockquote>「こちら、皆さんの落とし物ではありませんか？」</blockquote>
+          <p>持ち主を確認してすぐに返却する。ゲーム上の2回確認や成功・失敗処理には入れない。</p>
+        </article>
+
+        <article class="manual-entry manual-card manual-card-danger">
+          <h3>物を投げた・危険な行為があった</h3>
+          <blockquote>「危険ですので、物を投げないでください。床へ静かに置いてください。」</blockquote>
+          <p>最終行動の判定より先に、周囲の安全を確保する。安全確認後、置かれた物を通常どおり確認する。</p>
+        </article>
+
+        <article class="manual-entry manual-card manual-card-danger">
+          <h3>体調不良・けが</h3>
+          <ol>
+            <li>対象チームのタイマーを一時停止する。</li>
+            <li>参加者の状態を確認し、必要に応じて着席・退出・救護対応を行う。</li>
+            <li>ほかのスタッフへ応援を求める。</li>
+            <li>再開できる場合は、必要に応じて残り時間を修正してから再開する。</li>
+          </ol>
+          <p class="manual-note">ゲームの継続や成功判定より、参加者の安全を優先する。</p>
+        </article>
 
         <article class="manual-entry manual-card manual-card-danger">
           <h3>PCが止まった・画面が進まない</h3>

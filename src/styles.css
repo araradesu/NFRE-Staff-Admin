@@ -309,7 +309,7 @@ button:disabled {
 }
 
 .manual-script blockquote,
-.manual-card > blockquote {
+.manual-card blockquote {
   margin: 8px 0 14px;
   padding: 12px 14px;
   border-left: 3px solid #6daaf1;
@@ -317,6 +317,14 @@ button:disabled {
   background: #252d37;
   color: #fff;
   font-weight: 650;
+}
+
+.manual-card li > blockquote {
+  margin-top: 7px;
+}
+
+.manual-subheading-card {
+  background: linear-gradient(135deg, rgba(226, 74, 74, 0.12), var(--card-bg));
 }
 
 .manual-script blockquote small {
@@ -406,6 +414,10 @@ button:disabled {
 
 .shortcut-list > div:last-child {
   border-bottom: 0;
+}
+
+.shortcut-list > div.shortcut-danger {
+  color: #ff9f9f;
 }
 
 .shortcut-list p {

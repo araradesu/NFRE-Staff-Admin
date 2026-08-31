@@ -11,15 +11,17 @@ describe('staff manual', () => {
     document.body.innerHTML = '';
   });
 
-  it('本番フロー・管理画面・ショートカット・イレギュラー対応を表示する', () => {
+  it('本番フロー・管理画面・ショートカット・最終行動対応を表示する', () => {
     const view = createManualView({ onBack: vi.fn() });
     document.body.appendChild(view);
 
     expect(view.textContent).toContain('本番の流れ');
     expect(view.textContent).toContain('Web管理画面の使い方');
     expect(view.textContent).toContain('Ctrl');
-    expect(view.textContent).toContain('イレギュラー対応');
-    expect(view.textContent).toContain('平山……海……先生のか……。');
+    expect(view.textContent).toContain('最終行動の対応');
+    expect(view.textContent).toContain('平山……海……先生のか。');
+    expect(view.textContent).toContain('「けっさく」のピースだけが入った小物入れを、会場の床に落とす。');
+    expect(view.textContent).not.toContain('未登録');
   });
 
   it('検索語に一致しない項目を隠す', () => {
