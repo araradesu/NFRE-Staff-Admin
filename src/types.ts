@@ -57,6 +57,14 @@ export interface CommandRecord {
   processed_at: string | null;
 }
 
+export interface ScoreboardState {
+  id: number;
+  challenge_count: number;
+  success_count: number;
+  revision: number;
+  updated_at: string;
+}
+
 // 'timeout' = PENDINGが15秒経過しても終端状態にならない（監視は継続）
 // 'lock_applied' = APPLIED済みだがrevisionがまだ反映されていない
 // 'lock_rejected' = REJECTEDで次のState更新待ち

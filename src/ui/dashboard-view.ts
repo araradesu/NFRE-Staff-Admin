@@ -3,7 +3,7 @@ import type { TeamState } from '../types';
 import { createTeamCard, updateTeamCard } from './team-card';
 import { getCommandStatus } from '../command-service';
 
-export function createDashboardView(onOpenManual?: () => void): HTMLElement {
+export function createDashboardView(onOpenManual?: () => void, onOpenScoreboard?: () => void): HTMLElement {
   const container = document.createElement('div');
   container.className = 'dashboard-container';
 
@@ -30,8 +30,15 @@ export function createDashboardView(onOpenManual?: () => void): HTMLElement {
   manualBtn.className = 'btn-secondary';
   manualBtn.addEventListener('click', () => onOpenManual?.());
 
+  const scoreboardBtn = document.createElement('button');
+  scoreboardBtn.type = 'button';
+  scoreboardBtn.textContent = '成功率表示';
+  scoreboardBtn.className = 'btn-secondary';
+  scoreboardBtn.addEventListener('click', () => onOpenScoreboard?.());
+
   const headerActions = document.createElement('div');
   headerActions.className = 'header-actions';
+  headerActions.appendChild(scoreboardBtn);
   headerActions.appendChild(manualBtn);
   headerActions.appendChild(logoutBtn);
 

@@ -156,6 +156,17 @@ export function createManualView({ onBack }: ManualViewOptions): HTMLElement {
           </dl>
         </article>
 
+        <article class="manual-entry manual-card">
+          <h3>成功率表示・プロジェクター</h3>
+          <ol>
+            <li>ダッシュボード上部の「成功率表示」を開く。</li>
+            <li>「投影画面を開く」を押し、プロジェクター側の別ウィンドウを全画面表示にする。</li>
+            <li>成功・失敗エンディングが完了すると、受験チーム数が自動で増える。成功時は合格チーム数も増える。</li>
+          </ol>
+          <p>テストプレイや集計修正では、合格チーム数・受験チーム数を入力して「数値を変更」を押す。</p>
+          <p class="manual-note">同じチームの結果画面を再表示しても二重加算されない。数値変更はゲームPCの状態には影響しない。</p>
+        </article>
+
         <article class="manual-entry manual-card manual-card-warning">
           <h3>詳細操作</h3>
           <dl class="manual-definition-list">

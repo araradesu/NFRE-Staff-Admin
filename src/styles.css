@@ -319,6 +319,221 @@ button:disabled {
   font-weight: 650;
 }
 
+/* Venue scoreboard */
+.scoreboard-admin-container {
+  padding-bottom: 64px;
+}
+
+.scoreboard-preview {
+  overflow: hidden;
+  margin-bottom: 20px;
+  border: 1px solid #404040;
+  border-radius: 10px;
+  background: #f4f4f1;
+}
+
+.scoreboard-artwork {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #f4f4f1;
+  color: #090909;
+  font-family: "Yu Gothic", "YuGothic", "Noto Sans JP", sans-serif;
+  container-type: inline-size;
+}
+
+.scoreboard-group {
+  position: absolute;
+  z-index: 2;
+}
+
+.scoreboard-success-group {
+  top: 8.5%;
+  left: 23%;
+  min-width: 30%;
+}
+
+.scoreboard-challenge-group {
+  right: 20%;
+  bottom: 8.5%;
+  min-width: 27%;
+  text-align: center;
+}
+
+.scoreboard-label {
+  font-size: clamp(1rem, 2.8cqw, 3.4rem);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.scoreboard-number-wrap {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.08em;
+  min-height: 1.1em;
+}
+
+.scoreboard-number {
+  display: inline-block;
+  font-size: clamp(4.2rem, 15cqw, 15rem);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.08em;
+  line-height: 1;
+}
+
+.scoreboard-diagonal-rule {
+  position: absolute;
+  top: 60%;
+  left: 5.5%;
+  width: 89%;
+  height: 3px;
+  background: #929292;
+  transform: rotate(-7.5deg);
+  transform-origin: left center;
+}
+
+.scoreboard-corner {
+  position: absolute;
+  z-index: 3;
+  width: 4%;
+  aspect-ratio: 1;
+  border-color: #575757;
+  border-style: solid;
+  border-width: 0;
+}
+
+.scoreboard-corner-tl { top: 5%; left: 3%; border-top-width: 3px; border-left-width: 3px; }
+.scoreboard-corner-tr { top: 5%; right: 3%; border-top-width: 3px; border-right-width: 3px; }
+.scoreboard-corner-bl { bottom: 5%; left: 3%; border-bottom-width: 3px; border-left-width: 3px; }
+.scoreboard-corner-br { right: 3%; bottom: 5%; border-right-width: 3px; border-bottom-width: 3px; }
+
+.scoreboard-edit-panel {
+  padding: 20px;
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  background: var(--card-bg);
+}
+
+.scoreboard-edit-panel > p {
+  margin: -8px 0 18px;
+  color: #aaa;
+}
+
+.scoreboard-input-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.scoreboard-input-grid label span {
+  display: block;
+  margin-bottom: 6px;
+  color: #bbb;
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.scoreboard-form-message {
+  min-height: 1.5em;
+  margin-top: 12px;
+  font-size: 0.9rem;
+}
+
+.scoreboard-form-message.is-error { color: #ff8e8e; }
+.scoreboard-form-message.is-success { color: #70dc9d; }
+
+.scoreboard-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.scoreboard-actions .btn-primary {
+  width: auto;
+}
+
+.scoreboard-link-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 8px 14px;
+  border-radius: 4px;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+#app.app-scoreboard-display {
+  width: 100vw;
+  max-width: none;
+  height: 100vh;
+  padding: 0;
+}
+
+.scoreboard-display-shell {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: #f4f4f1;
+}
+
+.scoreboard-display-shell .scoreboard-artwork {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+}
+
+.scoreboard-display-status {
+  position: absolute;
+  right: 2.2vw;
+  bottom: 1.5vw;
+  color: #777;
+  font-size: clamp(0.7rem, 1.1vw, 1rem);
+  opacity: 0;
+  transition: opacity 200ms ease;
+}
+
+.scoreboard-display-status.is-visible {
+  opacity: 1;
+}
+
+.scoreboard-fullscreen-button {
+  position: absolute;
+  top: 1.4vw;
+  right: 1.6vw;
+  z-index: 5;
+  min-height: 36px;
+  padding: 6px 10px;
+  border: 1px solid #888;
+  background: rgba(244, 244, 241, 0.7);
+  color: #333;
+  font-size: 0.8rem;
+  opacity: 0;
+  transition: opacity 150ms ease;
+}
+
+.scoreboard-fullscreen-button:hover,
+.scoreboard-fullscreen-button:focus-visible {
+  opacity: 1;
+}
+
+.scoreboard-number-changed {
+  animation: scoreboard-number-pop 500ms ease-out;
+}
+
+@keyframes scoreboard-number-pop {
+  0% { opacity: 0.35; transform: scale(0.86); }
+  55% { opacity: 1; transform: scale(1.07); }
+  100% { transform: scale(1); }
+}
+
 .manual-card li > blockquote {
   margin-top: 7px;
 }
@@ -493,6 +708,14 @@ kbd {
 
   .manual-card {
     padding: 15px;
+  }
+
+  .scoreboard-input-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .scoreboard-preview .scoreboard-corner {
+    border-width: 0;
   }
 }
 

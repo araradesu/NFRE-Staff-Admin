@@ -1,7 +1,8 @@
 import { getSupabaseClient } from './supabase';
 import { stopPolling, clearStates, pausePolling, resumePolling } from './state-service';
 import { cancelAllWatches, pauseAllWatches, resumeAllWatches, activateCommandService } from './command-service';
-import { renderDashboard, renderLogin, showError } from './main';
+import { clearScoreboardState, pauseScoreboardPolling, resumeScoreboardPolling, stopScoreboardPolling } from './scoreboard-service';
+import { renderInitialAuthenticatedView, renderLogin, showError } from './main';
 
 let isAuthenticated = false;
 
@@ -41,13 +42,15 @@ export async function initAuth() {
 function handleLoginSuccess() {
   isAuthenticated = true;
   activateCommandService();
-  renderDashboard();
+  renderInitialAuthenticatedView();
 }
 
 function handleLogout() {
   isAuthenticated = false;
   stopPolling();
   clearStates();
+  stopScoreboardPolling();
+  clearScoreboardState();
   cancelAllWatches();
   renderLogin();
 }
@@ -55,9 +58,11 @@ function handleLogout() {
 export function handleVisibilityForAuth(isHidden: boolean) {
   if (isHidden) {
     pausePolling();
+    pauseScoreboardPolling();
     pauseAllWatches();
   } else {
     resumePolling();
+    resumeScoreboardPolling();
     resumeAllWatches();
   }
 }
