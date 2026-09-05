@@ -3,7 +3,9 @@ import type { ScoreboardState } from './types';
 
 export type ScoreboardCallback = (state: ScoreboardState | null, error: string | null) => void;
 
-const POLL_INTERVAL_MS = 2000;
+// The projector only needs to reflect totals within a few seconds. Avoid a
+// permanent 2-second database poll while the display is left open all day.
+const POLL_INTERVAL_MS = 10000;
 
 let pollingTimer: ReturnType<typeof setTimeout> | null = null;
 let isPolling = false;

@@ -366,7 +366,7 @@ describe('team-card', () => {
         if (connStatus === 'DELAYED') past.setSeconds(past.getSeconds() - 15);
         if (connStatus === 'DISCONNECTED') past.setSeconds(past.getSeconds() - 25);
 
-        const team = makeTeam({ last_seen_at: past.toISOString() });
+        const team = makeTeam({ current_phase: 'EXAM_IN_PROGRESS', last_seen_at: past.toISOString() });
         const card = createTeamCard(team);
         updateTeamCard(card, team, defaultCs());
 

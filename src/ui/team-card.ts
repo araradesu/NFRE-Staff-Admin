@@ -80,7 +80,7 @@ export function createTeamCard(team: TeamState): HTMLElement {
 function buildCardDOM(card: HTMLElement, team: TeamState) {
   card.innerHTML = '';
   const teamId = team.team_id;
-  const connStatus = getConnectionStatus(team.last_seen_at);
+  const connStatus = getConnectionStatus(team.last_seen_at, new Date(), team.current_phase);
   const isUnreg = connStatus === 'UNREGISTERED';
 
   // ---- Header ----
@@ -449,7 +449,7 @@ export function updateTeamCard(cardEl: HTMLElement, team: TeamState, cs: TeamCom
   const card = cardEl;
   latestTeamStates[team.team_id] = team;
 
-  const connStatus = getConnectionStatus(team.last_seen_at);
+  const connStatus = getConnectionStatus(team.last_seen_at, new Date(), team.current_phase);
   const isUnreg = connStatus === 'UNREGISTERED';
 
   const msg = card.querySelector<HTMLElement>('.unregistered-msg');
@@ -518,7 +518,7 @@ export function updateTeamCard(cardEl: HTMLElement, team: TeamState, cs: TeamCom
 }
 
 function updateCommandUI(card: HTMLElement, team: TeamState, cs: TeamCommandState) {
-  const connStatus = getConnectionStatus(team.last_seen_at);
+  const connStatus = getConnectionStatus(team.last_seen_at, new Date(), team.current_phase);
   const locked = isLocked(cs, connStatus, team);
 
   // All cmd-btn and success-toggle

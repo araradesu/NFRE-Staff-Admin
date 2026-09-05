@@ -17,13 +17,14 @@ describe('state-service', () => {
     clearStates();
     stopPolling();
     vi.clearAllMocks();
+    mockSupabase.in.mockResolvedValue({ data: [], error: null });
   });
 
   afterEach(() => {
     vi.useRealTimers();
   });
 
-  it('fetches on start and schedules next poll', async () => {
+  it('fetches on start and uses the low-traffic interval while idle', async () => {
     const cb = vi.fn();
     startPolling(cb);
 
@@ -36,6 +37,23 @@ describe('state-service', () => {
     const states = cb.mock.calls[0][0];
     expect(states.length).toBe(3);
     expect(states[0].team_id).toBe('TEAM_01');
+
+    vi.advanceTimersByTime(15000);
+    await Promise.resolve();
+    await Promise.resolve();
+
+    expect(mockSupabase.from).toHaveBeenCalledTimes(2);
+  });
+
+  it('uses the responsive interval while any team is in operation', async () => {
+    mockSupabase.in.mockResolvedValue({
+      data: [{ team_id: 'TEAM_01', current_phase: 'EXAM_IN_PROGRESS', revision: 1 }],
+      error: null,
+    });
+
+    startPolling(vi.fn());
+    await Promise.resolve();
+    await Promise.resolve();
 
     vi.advanceTimersByTime(2000);
     await Promise.resolve();
@@ -54,7 +72,7 @@ describe('state-service', () => {
 
     handleVisibilityChange(true);
 
-    vi.advanceTimersByTime(4000);
+    vi.advanceTimersByTime(30000);
     expect(mockSupabase.from).toHaveBeenCalledTimes(1);
 
     handleVisibilityChange(false);
@@ -63,7 +81,7 @@ describe('state-service', () => {
 
     expect(mockSupabase.from).toHaveBeenCalledTimes(2);
 
-    vi.advanceTimersByTime(2000);
+    vi.advanceTimersByTime(15000);
     await Promise.resolve();
     await Promise.resolve();
     expect(mockSupabase.from).toHaveBeenCalledTimes(3);

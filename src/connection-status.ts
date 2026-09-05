@@ -8,7 +8,24 @@ export function formatTimeMMSS(seconds: number): string {
   return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
 }
 
-export function getConnectionStatus(lastSeenAt: string | null | undefined, currentTime: Date = new Date()): ConnectionStatus {
+const OPERATIONAL_PHASES = new Set([
+  'PRE_EXAM_WAIT',
+  'EXAM_IN_PROGRESS',
+  'MESSAGE_HISTORY',
+  'WAITING_AT_ZERO',
+  'ENDING_INCOMING_SUCCESS',
+  'ENDING_INCOMING_FAILURE',
+  'ENDING_CALL_SUCCESS',
+  'ENDING_CALL_FAILURE',
+  'RESULT',
+  'EXIT_GUIDANCE',
+]);
+
+export function getConnectionStatus(
+  lastSeenAt: string | null | undefined,
+  currentTime: Date = new Date(),
+  currentPhase?: string,
+): ConnectionStatus {
   if (!lastSeenAt) return 'UNREGISTERED';
 
   const lastSeenDate = new Date(lastSeenAt);
@@ -16,8 +33,15 @@ export function getConnectionStatus(lastSeenAt: string | null | undefined, curre
 
   const diffSeconds = (currentTime.getTime() - lastSeenDate.getTime()) / 1000;
 
-  if (diffSeconds <= 10) return 'CONNECTED';
-  if (diffSeconds <= 20) return 'DELAYED';
+  // Game PCs report every 5 seconds during operation and every 30 seconds
+  // while idle. Match the warning thresholds to that cadence so an idle PC is
+  // not falsely marked as disconnected.
+  const isOperational = !!currentPhase && OPERATIONAL_PHASES.has(currentPhase);
+  const connectedLimit = isOperational ? 10 : 45;
+  const delayedLimit = isOperational ? 20 : 90;
+
+  if (diffSeconds <= connectedLimit) return 'CONNECTED';
+  if (diffSeconds <= delayedLimit) return 'DELAYED';
   return 'DISCONNECTED';
 }
 

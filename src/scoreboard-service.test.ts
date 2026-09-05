@@ -43,7 +43,7 @@ describe('scoreboard-service', () => {
     vi.useRealTimers();
   });
 
-  it('開始直後と2秒ごとに最新の集計を取得する', async () => {
+  it('開始直後と10秒ごとに最新の集計を取得する', async () => {
     const callback = vi.fn();
     startScoreboardPolling(callback);
     await Promise.resolve();
@@ -54,7 +54,7 @@ describe('scoreboard-service', () => {
     expect(mockEq).toHaveBeenCalledWith('id', 1);
     expect(callback).toHaveBeenCalledWith(scoreboardRow, null);
 
-    await vi.advanceTimersByTimeAsync(2000);
+    await vi.advanceTimersByTimeAsync(10000);
     expect(mockFrom).toHaveBeenCalledTimes(2);
   });
 

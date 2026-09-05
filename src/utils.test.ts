@@ -30,25 +30,32 @@ describe('getConnectionStatus', () => {
   it('returns CONNECTED within 10 seconds', () => {
     const now = new Date('2026-08-01T12:00:10Z');
     const lastSeen = '2026-08-01T12:00:00Z'; // exactly 10s
-    expect(getConnectionStatus(lastSeen, now)).toBe('CONNECTED');
+    expect(getConnectionStatus(lastSeen, now, 'EXAM_IN_PROGRESS')).toBe('CONNECTED');
 
     const lastSeen2 = '2026-08-01T12:00:05Z'; // 5s
-    expect(getConnectionStatus(lastSeen2, now)).toBe('CONNECTED');
+    expect(getConnectionStatus(lastSeen2, now, 'EXAM_IN_PROGRESS')).toBe('CONNECTED');
   });
 
   it('returns DELAYED between 10 and 20 seconds', () => {
     const now = new Date('2026-08-01T12:00:20Z');
     const lastSeen = '2026-08-01T12:00:05Z'; // 15s
-    expect(getConnectionStatus(lastSeen, now)).toBe('DELAYED');
+    expect(getConnectionStatus(lastSeen, now, 'EXAM_IN_PROGRESS')).toBe('DELAYED');
 
     const lastSeen2 = '2026-08-01T12:00:00Z'; // exactly 20s
-    expect(getConnectionStatus(lastSeen2, now)).toBe('DELAYED');
+    expect(getConnectionStatus(lastSeen2, now, 'EXAM_IN_PROGRESS')).toBe('DELAYED');
   });
 
   it('returns DISCONNECTED if more than 20 seconds', () => {
     const now = new Date('2026-08-01T12:00:30Z');
     const lastSeen = '2026-08-01T12:00:00Z'; // 30s
-    expect(getConnectionStatus(lastSeen, now)).toBe('DISCONNECTED');
+    expect(getConnectionStatus(lastSeen, now, 'EXAM_IN_PROGRESS')).toBe('DISCONNECTED');
+  });
+
+  it('allows the 30-second heartbeat while idle', () => {
+    const now = new Date('2026-08-01T12:01:00Z');
+    expect(getConnectionStatus('2026-08-01T12:00:20Z', now, 'WAITING_FOR_START')).toBe('CONNECTED');
+    expect(getConnectionStatus('2026-08-01T12:00:00Z', now, 'WAITING_FOR_START')).toBe('DELAYED');
+    expect(getConnectionStatus('2026-08-01T11:59:00Z', now, 'WAITING_FOR_START')).toBe('DISCONNECTED');
   });
 });
 

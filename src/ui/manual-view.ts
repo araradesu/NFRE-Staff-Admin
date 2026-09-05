@@ -140,9 +140,9 @@ export function createManualView({ onBack }: ManualViewOptions): HTMLElement {
         <article class="manual-entry manual-card">
           <h3>接続表示</h3>
           <div class="manual-status-grid">
-            <div><span class="status-dot status-green"></span><strong>接続中</strong><small>最終通信から10秒以内。通常操作可能。</small></div>
-            <div><span class="status-dot status-orange"></span><strong>遅延</strong><small>最終通信から11～20秒。連打せず待つ。</small></div>
-            <div><span class="status-dot status-red"></span><strong>切断</strong><small>20秒を超えて通信なし。PCと回線を確認。</small></div>
+            <div><span class="status-dot status-green"></span><strong>接続中</strong><small>規定時間内に通信あり。通常操作可能。</small></div>
+            <div><span class="status-dot status-orange"></span><strong>遅延</strong><small>進行中は10秒、待機中は45秒を超えて通信なし。連打せず待つ。</small></div>
+            <div><span class="status-dot status-red"></span><strong>切断</strong><small>進行中は20秒、待機中は90秒を超えて通信なし。PCと回線を確認。</small></div>
           </div>
         </article>
 

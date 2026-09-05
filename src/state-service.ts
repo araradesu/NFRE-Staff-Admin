@@ -13,13 +13,33 @@ let isPaused = false;
 let currentPollId = 0;
 
 const TARGET_TEAMS = ['TEAM_01', 'TEAM_02', 'TEAM_03'];
+const ACTIVE_POLL_INTERVAL_MS = 2000;
+const IDLE_POLL_INTERVAL_MS = 15000;
+const OPERATIONAL_PHASES = new Set([
+  'PRE_EXAM_WAIT',
+  'EXAM_IN_PROGRESS',
+  'MESSAGE_HISTORY',
+  'WAITING_AT_ZERO',
+  'ENDING_INCOMING_SUCCESS',
+  'ENDING_INCOMING_FAILURE',
+  'ENDING_CALL_SUCCESS',
+  'ENDING_CALL_FAILURE',
+  'RESULT',
+  'EXIT_GUIDANCE',
+]);
+
+function getPollIntervalMs(): number {
+  return Object.values(lastKnownStates).some(state => OPERATIONAL_PHASES.has(state.current_phase))
+    ? ACTIVE_POLL_INTERVAL_MS
+    : IDLE_POLL_INTERVAL_MS;
+}
 
 async function fetchTeamsState(pollId: number) {
   try {
     const supabase = getSupabaseClient();
     const { data, error } = await supabase
       .from('teams_state')
-      .select('*')
+      .select('team_id, session_id, revision, current_phase, remaining_seconds, timer_running, timer_paused, is_staff_success, staff_success_time, is_go_executed, last_seen_at')
       .in('team_id', TARGET_TEAMS);
 
     if (!isPolling || currentPollId !== pollId) {
@@ -31,10 +51,18 @@ async function fetchTeamsState(pollId: number) {
         currentCallback(buildSortedStates(), '状態を取得できません。通信状態を確認してください。');
       }
     } else if (data) {
-      data.forEach((row: TeamState) => {
-        lastKnownStates[row.team_id] = row;
+      data.forEach(row => {
+        // Fields not used by the admin UI are deliberately not downloaded.
+        const state = {
+          device_id: '',
+          last_command_id: null,
+          last_command_result: null,
+          updated_at: '',
+          ...row,
+        } as TeamState;
+        lastKnownStates[state.team_id] = state;
         // command-serviceへrevisionを通知
-        notifyRevision(row.team_id, row.revision);
+        notifyRevision(state.team_id, state.revision);
       });
       if (currentCallback) {
         currentCallback(buildSortedStates(), null);
@@ -81,7 +109,7 @@ function scheduleNextPoll() {
     if (isPolling && !isPaused) {
       scheduleNextPoll();
     }
-  }, 2000);
+  }, getPollIntervalMs());
 }
 
 export function startPolling(callback: StateCallback) {
