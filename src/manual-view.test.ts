@@ -26,14 +26,20 @@ describe('staff manual', () => {
     expect(view.textContent).toContain('何かやりたいことがある場合は、思い切ってやってみていいですよ。');
     expect(view.textContent).toContain('山平へ確認する');
     expect(view.textContent).toContain('転換をダブルチェックする');
+    expect(view.textContent).toContain('雇われのスタッフ');
+    expect(view.textContent).toContain('試験担当の先生の名前も事前には知らない');
     expect(view.textContent).toContain('Web管理画面の使い方');
     expect(view.textContent).toContain('Ctrl');
     expect(view.textContent).toContain('最終行動の対応');
     expect(view.textContent).toContain('ひらやま……かい先生のか……。');
-    expect(view.textContent).toContain('「けっさく」のピースだけが入った小物入れを、会場の床に落とす。');
-    expect(view.textContent).toContain('エラーコードについて呼ばれた');
-    expect(view.textContent).toContain('この対応は必須ではない。');
-    expect(view.textContent).toContain('タイマーを一時停止・再開したことを伝えない。');
+    expect(view.textContent).toContain('落とし物としてスタッフへ直接渡す');
+    expect(view.textContent).toContain('正しい小物入れを会場内へ実際に落とす');
+    expect(view.textContent).toContain('エラーコード画面へ到達したら先回りして対応する');
+    expect(view.textContent).toContain('残り時間が02:00以下');
+    expect(view.textContent).toContain('あ、エラー起きちゃってますね……。');
+    expect(view.textContent).toContain('あ、そうですか。お渡ししますね。');
+    expect(view.textContent).toContain('もう少しボリュームは抑えめでお願いします');
+    expect(view.textContent).toContain('参加者へタイマーの一時停止・再開は伝えない。');
     expect(view.textContent).not.toContain('未登録');
   });
 

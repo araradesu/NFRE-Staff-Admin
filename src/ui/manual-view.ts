@@ -55,6 +55,14 @@ export function createManualView({ onBack }: ManualViewOptions): HTMLElement {
           <p class="manual-note">成功・失敗処理と転換は、空いている人が担当し、試験スタッフが率先する。転換のダブルチェックは、転換をしなかった人が率先する。</p>
         </article>
 
+        <article class="manual-entry manual-card">
+          <div class="manual-card-label">スタッフの設定</div>
+          <h3>試験内容を知らされていない「雇われのスタッフ」</h3>
+          <p>スタッフは、この試験の管理・運営を任されている雇われのスタッフとして振る舞う。</p>
+          <p>試験担当の先生からは、「カンニング防止のため」という理由で、試験問題や答え、それに付随する情報を何も知らされていない。当日の運営方法だけを伝えられている。</p>
+          <p class="manual-note">問題の答えや内容だけでなく、試験担当の先生の名前も事前には知らない。質問されても推測で答えず、「知らされていない」という立場を崩さない。</p>
+        </article>
+
         <article class="manual-entry manual-card manual-card-warning">
           <div class="manual-card-label">接客の基本</div>
           <h3>固い言葉で案内しない</h3>
@@ -210,10 +218,33 @@ export function createManualView({ onBack }: ManualViewOptions): HTMLElement {
           <p class="manual-note">それ以外のイレギュラーは状況に応じて対応する。どうしても判断できない場合は、山平へ確認する。</p>
         </article>
 
+        <article class="manual-entry manual-card manual-card-accent">
+          <div class="manual-card-label">担当：試験スタッフ／標準演技</div>
+          <h3>9．エラーコード画面へ到達したら先回りして対応する</h3>
+          <p>参加者が「傑作」の言葉を送信しようとして、演出上のエラーコード画面へ到達したら、呼ばれるのを待たずにスタッフから話しかけに行く。</p>
+          <ol>
+            <li>対象チームと、最終問題で表示される想定されたエラー画面であることを確認する。</li>
+            <li>残り時間が<strong>02:00以下</strong>なら、Web管理画面から対象チームのタイマーを一時停止する。02:01以上なら止めない。</li>
+            <li><blockquote>「あ、エラー起きちゃってますね……。」</blockquote></li>
+            <li>スタッフエリアから「エラー発生時対応資料」を持ってくる。</li>
+            <li><blockquote>「……そういえば、担当の先生から、エラーが発生した場合はこの資料を渡せと言われていまして……。」</blockquote></li>
+            <li>資料を参加者へ渡す。資料の意味や、別の提出方法は説明しない。</li>
+            <li>さらに質問された場合は、<blockquote>「こちらに書かれている内容以上のことは、私も知らされていなくて……。」</blockquote></li>
+            <li>タイマーを止めていた場合は、資料を渡し、スタッフとのやり取りが終わった時点で再開する。</li>
+          </ol>
+          <ul>
+            <li>参加者が資料を読んで考える時間は止めない。</li>
+            <li>参加者へタイマーの一時停止・再開は伝えない。</li>
+            <li>画面停止・通信切断・操作不能など、本物の機器トラブルの場合は資料を渡さず、05「トラブル対応」に従う。</li>
+          </ul>
+          <p class="manual-note">一時停止・再開の前に、別チームを操作していないか必ず確認すること。</p>
+        </article>
+
         <article class="manual-entry manual-card manual-card-success">
           <div class="manual-card-label">担当：空いている人（試験スタッフが率先）</div>
-          <h3>9．成功パターン</h3>
-          <p>参加者が正しい小物入れを渡してきた、または床へ落とした場合。</p>
+          <h3>10．成功パターン</h3>
+          <p><strong>正規：</strong>参加者が正しい小物入れを「落とし物」としてスタッフへ直接渡した場合。</p>
+          <p><strong>準正規：</strong>参加者が正しい小物入れを会場内へ実際に落とした場合。</p>
           <blockquote>「これ、落とし物ですかね？ 分かりました。すぐに届けてくるので、カンニングとかしないでくださいね。」</blockquote>
           <ol>
             <li>正しい小物入れを持って会場を出る。</li>
@@ -227,7 +258,7 @@ export function createManualView({ onBack }: ManualViewOptions): HTMLElement {
 
         <article class="manual-entry manual-card manual-card-danger">
           <div class="manual-card-label">担当：空いている人（試験スタッフが率先）</div>
-          <h3>10．失敗パターン</h3>
+          <h3>11．失敗パターン</h3>
           <ol>
             <li>残り時間が00:00であることを確認する。</li>
             <li>「成功判定」がOFFであることを確認する。</li>
@@ -237,7 +268,7 @@ export function createManualView({ onBack }: ManualViewOptions): HTMLElement {
 
         <article class="manual-entry manual-card">
           <div class="manual-card-label">担当：空いている人（試験スタッフが率先）</div>
-          <h3>11．退出後に転換する</h3>
+          <h3>12．退出後に転換する</h3>
           <ul class="manual-checklist">
             <li>参加者の私物忘れがないか確認する</li>
             <li>使用したピースと備品をすべて回収する</li>
@@ -248,7 +279,7 @@ export function createManualView({ onBack }: ManualViewOptions): HTMLElement {
 
         <article class="manual-entry manual-card manual-card-warning">
           <div class="manual-card-label">担当：転換をしなかった人が率先</div>
-          <h3>12．転換をダブルチェックする</h3>
+          <h3>13．転換をダブルチェックする</h3>
           <p>転換を担当した本人だけで完了にせず、別のスタッフがアイテム・説明用紙・小物入れ・手帳・ペン・PCの状態を確認する。</p>
           <p class="manual-note">一つでも不足や置き間違いがあれば、その場で直してから次のチームを案内する。</p>
         </article>
@@ -337,30 +368,37 @@ export function createManualView({ onBack }: ManualViewOptions): HTMLElement {
       <section class="manual-section" id="manual-irregular" data-manual-section>
         <div class="manual-section-heading">
           <span class="manual-section-number">04</span>
-          <div><h2>最終行動の対応</h2><p>正解行動・別解・不正解行動</p></div>
+          <div><h2>最終行動の対応</h2><p>正規・準正規・不正解行動</p></div>
         </div>
 
         <article class="manual-entry manual-card manual-card-success">
-          <div class="manual-card-label">正解行動</div>
-          <h3>参加者が行う正式な最終行動</h3>
-          <blockquote>「けっさく」のピースだけが入った小物入れを、会場の床に落とす。</blockquote>
+          <div class="manual-card-label">正規</div>
+          <h3>落とし物としてスタッフへ直接渡す</h3>
+          <blockquote>「けっさく」のピースだけが入った小物入れを、「落とし物」としてスタッフへ直接渡す。</blockquote>
           <p><strong>判定条件：</strong>小物入れの裏面に「鈴木 優希」と記名され、中には「けっさく」のピースが1枚だけ入っていること。</p>
         </article>
 
+        <article class="manual-entry manual-card manual-card-success">
+          <div class="manual-card-label">準正規</div>
+          <h3>正しい小物入れを会場内へ実際に落とす</h3>
+          <p>参加者が正しい小物入れを床へ落とした場合も成功として扱う。</p>
+          <p><strong>判定条件：</strong>正規と同じく、小物入れの裏面に「鈴木 優希」と記名され、中には「けっさく」のピースが1枚だけ入っていること。</p>
+        </article>
+
         <article class="manual-entry manual-card manual-card-accent">
-          <div class="manual-card-label">共通の初動</div>
-          <h3>何か物が落とされたら</h3>
+          <div class="manual-card-label">落とされた場合の初動</div>
+          <h3>拾って、中身と記名を確認する</h3>
           <ol>
             <li>落とされた物を拾い上げる。</li>
             <li>入れ物であれば、参加者に見せつけないよう自然に中身を確認する。</li>
             <li>裏面などに記名がある場合は、その名前も確認する。</li>
-            <li>下記の「正解の場合」または「不正解行動集」に沿って対応する。</li>
+            <li>正しい小物入れなら次の「成功時の共通処理」、違っていれば「不正解行動集」に沿って対応する。</li>
           </ol>
         </article>
 
         <article class="manual-entry manual-card manual-card-success">
-          <div class="manual-card-label">正解の場合</div>
-          <h3>声を掛けてから会場を出る</h3>
+          <div class="manual-card-label">正規・準正規共通</div>
+          <h3>成功時の共通処理</h3>
           <blockquote>「これ、落とし物ですかね？ 分かりました。すぐに届けてくるので、カンニングとかしないでくださいね。」</blockquote>
           <ol>
             <li>小物入れを持って会場を出る。</li>
@@ -370,20 +408,6 @@ export function createManualView({ onBack }: ManualViewOptions): HTMLElement {
             <li>会場へ戻り、小物入れをスタッフ机へ置く。</li>
           </ol>
           <p class="manual-note">成功判定・成功タイム・対象チームを確認してからGoを実行すること。</p>
-        </article>
-
-        <article class="manual-entry manual-card manual-card-success">
-          <div class="manual-card-label">別解</div>
-          <h3>正しい小物入れをスタッフへ直接渡された</h3>
-          <p class="manual-examples">「けっさく」のピースだけが入った正しい小物入れを渡され、「渡してほしい」「落としていた」と言われた場合。</p>
-          <blockquote>「これ、落とし物ですかね？ 分かりました。すぐに届けてくるので、カンニングとかしないでくださいね。」</blockquote>
-          <ol>
-            <li>小物入れを持って会場を出る。</li>
-            <li>対象チームの「成功判定」をONにする。</li>
-            <li>必要に応じて成功タイムを修正する。</li>
-            <li>「Go実行」を押し、成功エンディングを流す。</li>
-            <li>会場へ戻り、小物入れをスタッフ机へ置く。</li>
-          </ol>
         </article>
 
         <article class="manual-entry manual-card manual-card-danger manual-subheading-card">
@@ -423,28 +447,16 @@ export function createManualView({ onBack }: ManualViewOptions): HTMLElement {
           <p>物は受け取らず、参加者へ返す。</p>
         </article>
 
-        <article class="manual-entry manual-card manual-card-accent">
-          <div class="manual-card-label">任意対応</div>
-          <h3>エラーコードについて呼ばれた</h3>
-          <p class="manual-note"><strong>この対応は必須ではない。</strong>参加者がスタッフを呼び、表示されたエラーやエラーコードについて質問した場合のみ対応する。参加者同士で確認しているだけの場合は介入しない。</p>
-          <p class="manual-examples">例：「エラーが出ているんですけど」「このエラーコードは何ですか？」「これはどうすればいいですか？」</p>
-          <ol>
-            <li>対象チームと、最終問題で表示される想定されたエラー画面であることを確認する。</li>
-            <li>参加者には伝えず、Web管理画面から対象チームのタイマーを一時停止する。</li>
-            <li><blockquote>「エラーですか？ 少々お待ちください。」</blockquote></li>
-            <li>スタッフエリアから「エラー発生時対応資料」を持ってくる。</li>
-            <li><blockquote>「試験担当者から、試験用ソフトにエラーが表示された場合はこちらを提示するよう言われています。私から詳しい説明はできないのですが、こちらをご確認ください。」</blockquote></li>
-            <li>資料を参加者へ渡す。内容の意味や、別の提出方法は説明しない。</li>
-            <li>さらに質問された場合は、<blockquote>「こちらに書かれている内容以上のことは、私も知らされていません。」</blockquote></li>
-            <li>スタッフとのやり取りが終わり、参加者が資料を確認し始めたら、何も言わずに対象チームのタイマーを再開する。</li>
-          </ol>
-          <ul>
-            <li>スタッフから先回りして資料を渡したり、資料の存在を知らせたりしない。</li>
-            <li>停止するのはスタッフ対応中だけとし、参加者が資料を読んで考える時間は止めない。</li>
-            <li>参加者へは、タイマーを一時停止・再開したことを伝えない。</li>
-            <li>画面停止・通信切断・操作不能など、本物の機器トラブルの場合は資料を渡さず、05「トラブル対応」に従う。</li>
-          </ul>
-          <p class="manual-note">一時停止・再開の前に、別チームを操作していないか必ず確認すること。</p>
+        <article class="manual-entry manual-card">
+          <h3>ペンを「自分の物」と言われた</h3>
+          <blockquote>「あ、そうですか。お渡ししますね。」</blockquote>
+          <p>そのままペンを渡す。芯が入っておらず使用できないダミーアイテムなので、取り返したり追加説明したりしなくてよい。</p>
+        </article>
+
+        <article class="manual-entry manual-card">
+          <h3>参加者の声が大きい</h3>
+          <blockquote>「他の受験者の方に聞こえるかもしれませんので、もう少しボリュームは抑えめでお願いします。」</blockquote>
+          <p>答えや重要な情報がほかのチームへ聞こえる前に、落ち着いて声を掛ける。</p>
         </article>
 
         <article class="manual-entry manual-card">
