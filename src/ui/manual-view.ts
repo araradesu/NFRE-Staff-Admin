@@ -27,6 +27,7 @@ export function createManualView({ onBack }: ManualViewOptions): HTMLElement {
         <input type="search" class="manual-search" placeholder="例：Go、切断、ペン、ショートカット" autocomplete="off">
       </label>
       <nav class="manual-jump-nav" aria-label="マニュアル目次">
+        <a href="#manual-basics">役割・接客</a>
         <a href="#manual-flow">本番の流れ</a>
         <a href="#manual-dashboard">管理画面</a>
         <a href="#manual-shortcuts">ショートカット</a>
@@ -38,96 +39,218 @@ export function createManualView({ onBack }: ManualViewOptions): HTMLElement {
     <div class="manual-no-results" hidden>該当する項目がありません。別の言葉で検索してください。</div>
 
     <main class="manual-content">
-      <section class="manual-section" id="manual-flow" data-manual-section>
+      <section class="manual-section" id="manual-basics" data-manual-section>
         <div class="manual-section-heading">
-          <span class="manual-section-number">01</span>
-          <div><h2>本番の流れ</h2><p>受付完了から転換まで</p></div>
+          <span class="manual-section-number">00</span>
+          <div><h2>最初に読むこと</h2><p>担当分けと、参加者への接し方</p></div>
         </div>
 
         <article class="manual-entry manual-card manual-card-accent">
-          <div class="manual-card-label">開始前</div>
-          <h3>1．接続と会場を確認</h3>
-          <ul class="manual-checklist">
-            <li>使用するTEAMが緑色の「接続中」になっている</li>
-            <li>各PCが「開始待機」になっている</li>
-            <li>アイテム全てを初期位置へ戻した</li>
-            <li>参加者の荷物を荷物置き場へ移動してもらった</li>
+          <div class="manual-card-label">基本の担当分け</div>
+          <h3>「案内スタッフ」と「試験スタッフ」で役割を分ける</h3>
+          <div class="manual-role-grid">
+            <div><strong>案内スタッフ</strong><p>会場への案内・誘導、チーム分け、入場前後の説明、終了後の案内など、ゲーム外のメタ的な部分を担当する。</p></div>
+            <div><strong>試験スタッフ</strong><p>オープニングの演技、試験開始、試験中の監視や声掛けなど、ゲーム内のストーリー的な部分を担当する。</p></div>
+          </div>
+          <p class="manual-note">成功・失敗処理と転換は、空いている人が担当し、試験スタッフが率先する。転換のダブルチェックは、転換をしなかった人が率先する。</p>
+        </article>
+
+        <article class="manual-entry manual-card manual-card-warning">
+          <div class="manual-card-label">接客の基本</div>
+          <h3>固い言葉で案内しない</h3>
+          <p>「～となっております」「～でございます」ではなく、「～ってなってます」「～です」のように、気さくな言葉で参加者と接する。</p>
+          <p>このマニュアルは書き言葉の都合で少し固く書いているが、意味が変わらない範囲なら、自分が話しやすい言葉に変えてよい。</p>
+          <p class="manual-note">参加者は「謎解きゲーム」を楽しみに来ている。緊張させるのではなく、ドキドキ・ワクワクしてもらえる言葉遣いと身振り手振りを意識する。</p>
+        </article>
+      </section>
+
+      <section class="manual-section" id="manual-flow" data-manual-section>
+        <div class="manual-section-heading">
+          <span class="manual-section-number">01</span>
+          <div><h2>本番の流れ</h2><p>入場案内から転換のダブルチェックまで</p></div>
+        </div>
+
+        <article class="manual-entry manual-card manual-card-accent">
+          <div class="manual-card-label">担当：案内スタッフ</div>
+          <h3>1．参加意思と人数を確認する</h3>
+          <div class="manual-script">
+            <blockquote>「こんにちは～。皆さん、11月祭謎解き試験に参加される方ですかね？」</blockquote>
+            <blockquote>「何名様ですか？」</blockquote>
+          </div>
+          <dl class="manual-definition-list">
+            <div><dt>3名以下</dt><dd>「では、また準備ができましたら案内しますので、この扉の前でお待ちください。」</dd></div>
+            <div><dt>4名以上</dt><dd>「こちらのゲームは1チームにつき3名までしか同時に挑戦できないので、分かれての案内になりますがよろしいですか？」</dd></div>
+          </dl>
+          <ul>
+            <li>チームの分け方はこちらから提案する。4人なら2・2、5人なら2・3、7人なら2・2・3を目安にする。</li>
+            <li>小学生未満は人数に数えなくてよい。例：大人3人と未就学児1人は同じチームで案内できる。</li>
           </ul>
+          <p class="manual-note">ここまで案内したら、参加者には扉の前でもう少し待ってもらう。</p>
+        </article>
+
+        <article class="manual-entry manual-card manual-card-accent">
+          <div class="manual-card-label">担当：案内スタッフ</div>
+          <h3>2．入場できる状態か確認する</h3>
+          <p>会場内を見て、次の両方を確認する。</p>
+          <ul class="manual-checklist">
+            <li>案内するチーム数分の席が、転換済みになっている</li>
+            <li>現在プレイ中の全チームが「オープニングの着信」まで進んでいる</li>
+          </ul>
+          <p>確認できたら扉を開けて参加者を会場内へ入れ、全員が入ったら扉を閉める。</p>
+        </article>
+
+        <article class="manual-entry manual-card manual-card-accent">
+          <div class="manual-card-label">担当：案内スタッフ</div>
+          <h3>3．役割と準備方法を案内する</h3>
+          <div class="manual-script">
+            <blockquote>「皆さんは、この実習室に試験を受けに来た学生の皆さんということで、間違いないですね？」</blockquote>
+            <p class="stage-direction">否定されても「間違いないですね？？」と繰り返し、試験を受けに来た学生という設定を了承してもらう。</p>
+          </div>
+          <p>了承されたら説明用紙を見せる。この時点では、まだ渡さない。</p>
+          <div class="manual-script">
+            <blockquote>「では、皆さんは○番チームとなります。」</blockquote>
+            <blockquote>「この説明用紙に従って、準備をしてください。」</blockquote>
+            <blockquote>「準備ができましたら、もうゲームを始めてしまって大丈夫です。」</blockquote>
+            <blockquote>「この説明用紙は表裏がありますので、しっかり読むようにしてください。」</blockquote>
+            <p class="stage-direction">ここまで言い切ってから説明用紙を渡す。</p>
+            <blockquote>「では説明用紙を持ったまま、あそこの○番チームの席にお座りください。」</blockquote>
+          </div>
+          <p class="manual-note">着席後は試験スタッフへ引き継ぐ。「ゲームスタートを押してよいか」などの質問があれば、案内スタッフが対応する。</p>
         </article>
 
         <article class="manual-entry manual-card">
-          <div class="manual-card-label">導入演出</div>
-          <h3>2．ペンと手帳の落とし物</h3>
+          <div class="manual-card-label">担当：試験スタッフ</div>
+          <h3>4．オープニング中を見守り、荷物を確認する</h3>
+          <ul>
+            <li>参加者がオープニングを見ている間、指示前にほかの物へ触っていないか見守る。</li>
+            <li>関係のない物へ触っていたら、<blockquote>「指示があるまでは触らないようにお願いします。」</blockquote></li>
+          </ul>
+          <p>参加者が手を上げたら、準備確認へ進む。</p>
           <div class="manual-script">
-            <blockquote>「このペン落ちてますけど、どなたのですか？」</blockquote>
-            <p class="stage-direction">違うと言われたら、軽く謝って無記名落とし物ボックスへ入れに行く。</p>
-            <blockquote>「あ、そうですか、失礼しました。」</blockquote>
-            <p class="stage-direction">戻りながら、ほかに落とし物がないか確認する。</p>
-            <blockquote>「すみませんね、時間かかりまして。」</blockquote>
-            <p class="stage-direction">手帳を見つけ、落とし物の多さにあきれ笑いする。</p>
-            <blockquote>「え～……これは皆さんの物じゃ……ないですかね？」</blockquote>
-            <p class="stage-direction">手帳の裏面を見て、読みながら平山 海先生の物だと気付く。</p>
-            <blockquote>「平山……海……先生のか。」</blockquote>
-            <p class="stage-direction">「この人」で裏面をしれっと参加者側へ向ける。</p>
-            <blockquote>「一旦今から試験始めますね。で、始まったらこの人に手帳渡してくるんで、ちょっとスタッフいなくなります。その間、立ち歩いたり、カンニングしたりしないようにお願いします。では、画面をご覧ください。」</blockquote>
+            <blockquote>「あ、準備完了ですね。かしこまりました～。」</blockquote>
+            <blockquote>「ポケットの中とか、スマートフォン、貴重品入ってないですか？」</blockquote>
+            <blockquote>「私物は使えないので、荷物置き場か小物入れの中に入れておいてくださいね～。」</blockquote>
+            <p class="stage-direction">確認しながら、しれっと小物入れを閉める。</p>
           </div>
         </article>
 
         <article class="manual-entry manual-card">
-          <div class="manual-card-label">試験開始</div>
-          <h3>3．管理画面から開始</h3>
+          <div class="manual-card-label">担当：試験スタッフ</div>
+          <h3>5．ペンの落とし物を演じる</h3>
+          <div class="manual-script">
+            <p class="stage-direction">ほかに不備がないか探すふりをして、床の下のペンを拾う。</p>
+            <blockquote>「これ、皆さんの物ですか？」</blockquote>
+            <p class="stage-direction"><strong>違うと言われた場合：</strong>「そうですか……」と言い、首をかしげながら「名前のない落とし物ボックス」に置いて戻る。</p>
+            <p class="stage-direction"><strong>そうですと言われた場合：</strong>「あ、そうですか。じゃあお返ししますね。」と言って返す。ペンには芯が入っておらず、書けないダミーアイテム。</p>
+          </div>
+        </article>
+
+        <article class="manual-entry manual-card">
+          <div class="manual-card-label">担当：試験スタッフ</div>
+          <h3>6．手帳の落とし物を演じる</h3>
+          <div class="manual-script">
+            <p class="stage-direction">「もう大丈夫ですかね～……？」などと言いながら、念のためもう一度確認する体で手帳を拾う。名前が書かれていない面だけを見せる。</p>
+            <blockquote>「……この手帳は、さすがに誰かのですか……？」</blockquote>
+          </div>
+          <dl class="manual-branch-list">
+            <div>
+              <dt>違うと言われた場合</dt>
+              <dd>
+                <blockquote>「え～、そうですか……あ……。」</blockquote>
+                <p>名前に気づいたふりをして、</p>
+                <blockquote>「ひらやま……かい先生のか……。」</blockquote>
+              </dd>
+            </div>
+            <div>
+              <dt>参加者の物だと言われた場合</dt>
+              <dd>
+                <blockquote>「あ、そうですか……では、この手帳、名前が書かれていますので、一応お名前確認してもいいですか？」</blockquote>
+                <p>名前の面はまだ見せていないため、答えは一致しない想定。</p>
+                <blockquote>「……ちょっとお名前違うので、お渡しできないですね。」</blockquote>
+                <p>ここで名前の面を見せる。</p>
+                <blockquote>「多分これは、ここの学校の平山先生の物ですね……。」</blockquote>
+              </dd>
+            </div>
+          </dl>
+          <p>どちらの分岐でも、少し悩むふりをして次へ進む。</p>
+          <div class="manual-script">
+            <blockquote>「……いったん、先に試験始めてしまいますね。」</blockquote>
+            <blockquote>「ただ、試験始まったら、平山先生にこの手帳を渡しに行くので、一瞬いなくなります。」</blockquote>
+            <blockquote>「ですので、くれぐれもカンニングとかしないようにお願いしますね。」</blockquote>
+            <blockquote>「もう、数秒あったら戻ってくるので、さすがにできないと思いますけど……。」</blockquote>
+            <blockquote>「よろしくお願いしますね。では、画面をご覧ください。」</blockquote>
+          </div>
+        </article>
+
+        <article class="manual-entry manual-card">
+          <div class="manual-card-label">担当：試験スタッフ</div>
+          <h3>7．管理画面から試験を開始する</h3>
           <ol>
             <li>対象チームが「試験開始待ち」になったことを確認する。</li>
             <li>対象チームの「試験開始」を押す。</li>
             <li>確認画面でもう一度「実行」を押す。</li>
+            <li>カウントダウンが始まったら、手帳を持って部屋を出る。</li>
+            <li>手帳をポケットなどへ隠して部屋に戻り、スタッフ机へ置く。</li>
             <li>5カウント後、残り15:00から試験が始まったことを確認する。</li>
           </ol>
           <p class="manual-note">別チームのカードを押さないように注意すること。</p>
         </article>
 
         <article class="manual-entry manual-card">
-          <div class="manual-card-label">試験中</div>
-          <h3>4．進行を監視する</h3>
+          <div class="manual-card-label">担当：試験スタッフ</div>
+          <h3>8．試験中の進行を監視する</h3>
           <ul>
             <li>残り時間・現在フェーズ・接続状態を確認する。</li>
-            <li>通常進行中は「詳細操作」を開かない。</li>
-            <li>参加者から答えや解き方を聞かれても回答しない。</li>
-            <li>画面停止や操作不能などの機器トラブルに気付いたら、参加者から呼ばれるのを待たずに自分から対応しに行く。</li>
-            <li>安全・体調・機器トラブルへの対応は、ゲーム判定より優先する。</li>
+            <li>PCの不具合やルール違反が起きていないか監視する。</li>
+            <li>「キーボードの裏を見る」「モニターを上から押す」など勇気のいる行動を不安がっていたら、<blockquote>「何かやりたいことがある場合は、思い切ってやってみていいですよ。」</blockquote></li>
+            <li>貼られている紙を剥がそうとしたら、<blockquote>「紙は剥がさなくていいみたいです。」</blockquote></li>
+            <li>ノートの紙を取り外そうとしたら、<blockquote>「取り外さなくていいようです。」</blockquote></li>
+            <li>ヒント推奨アナウンスから少なくとも1分経ってもヒントを見ていなければ、<blockquote>「詰まった時は、ぜひヒントも活用してくださいね。」</blockquote></li>
           </ul>
+          <p class="manual-note">それ以外のイレギュラーは状況に応じて対応する。どうしても判断できない場合は、山平へ確認する。</p>
         </article>
 
         <article class="manual-entry manual-card manual-card-success">
-          <div class="manual-card-label">成功</div>
-          <h3>5．正しい最終行動を確認した</h3>
+          <div class="manual-card-label">担当：空いている人（試験スタッフが率先）</div>
+          <h3>9．成功パターン</h3>
+          <p>参加者が正しい小物入れを渡してきた、または床へ落とした場合。</p>
+          <blockquote>「これ、落とし物ですかね？ 分かりました。すぐに届けてくるので、カンニングとかしないでくださいね。」</blockquote>
           <ol>
-            <li>台詞を挟まず、正しい小物入れを持って会場を出る。</li>
-            <li>対象チームの「成功判定」をONにする。</li>
-            <li>成功時間が固定されたことを確認し、必要なら修正する。</li>
-            <li>少し時間を空けて、対象チームの「Go実行」を押す。</li>
+            <li>正しい小物入れを持って会場を出る。</li>
+            <li>外で対象チームの「成功判定」をONにする。</li>
+            <li>最終行動の時刻とずれていれば、部屋へ戻る前に成功時間を修正する。</li>
+            <li>対象チーム・成功判定・成功時間を確認して「Go」を押す。</li>
+            <li>部屋へ戻り、小物入れをスタッフ机へ置く。</li>
           </ol>
-          <p class="manual-note">Goを押すとエンディングが確定する。必ずチーム番号と成功判定を確認する。</p>
+          <p class="manual-note">Goを押すとエンディングが確定する。必ず対象チームを確認する。</p>
         </article>
 
         <article class="manual-entry manual-card manual-card-danger">
-          <div class="manual-card-label">時間切れ・失敗</div>
-          <h3>6．成功判定を付けずにGo</h3>
+          <div class="manual-card-label">担当：空いている人（試験スタッフが率先）</div>
+          <h3>10．失敗パターン</h3>
           <ol>
             <li>残り時間が00:00であることを確認する。</li>
             <li>「成功判定」がOFFであることを確認する。</li>
-            <li>対象チームの「Go実行」を押す。</li>
+            <li>対象チームを確認して「Go」を押す。</li>
           </ol>
         </article>
 
         <article class="manual-entry manual-card">
-          <div class="manual-card-label">終了後</div>
-          <h3>7．退出と転換</h3>
+          <div class="manual-card-label">担当：空いている人（試験スタッフが率先）</div>
+          <h3>11．退出後に転換する</h3>
           <ul class="manual-checklist">
             <li>参加者の私物忘れがないか確認する</li>
             <li>使用したピースと備品をすべて回収する</li>
             <li>手帳・ペン・小物入れを初期位置へ戻す</li>
             <li>PCが「転換チェック」または次回の開始待機へ進んだことを確認する</li>
           </ul>
+        </article>
+
+        <article class="manual-entry manual-card manual-card-warning">
+          <div class="manual-card-label">担当：転換をしなかった人が率先</div>
+          <h3>12．転換をダブルチェックする</h3>
+          <p>転換を担当した本人だけで完了にせず、別のスタッフがアイテム・説明用紙・小物入れ・手帳・ペン・PCの状態を確認する。</p>
+          <p class="manual-note">一つでも不足や置き間違いがあれば、その場で直してから次のチームを案内する。</p>
         </article>
       </section>
 
@@ -237,13 +360,14 @@ export function createManualView({ onBack }: ManualViewOptions): HTMLElement {
 
         <article class="manual-entry manual-card manual-card-success">
           <div class="manual-card-label">正解の場合</div>
-          <h3>無言で持って会場を出る</h3>
+          <h3>声を掛けてから会場を出る</h3>
+          <blockquote>「これ、落とし物ですかね？ 分かりました。すぐに届けてくるので、カンニングとかしないでくださいね。」</blockquote>
           <ol>
-            <li>参加者には何も言わず、小物入れを持って会場を出る。</li>
+            <li>小物入れを持って会場を出る。</li>
             <li>対象チームの「成功判定」をONにする。</li>
             <li>必要に応じて、最終行動を行った時点の成功タイムへ修正する。</li>
-            <li>少し時間を空けて「Go実行」を押し、成功エンディングを流す。</li>
-            <li>成功エンディングが始まってから会場へ戻る。</li>
+            <li>「Go実行」を押し、成功エンディングを流す。</li>
+            <li>会場へ戻り、小物入れをスタッフ机へ置く。</li>
           </ol>
           <p class="manual-note">成功判定・成功タイム・対象チームを確認してからGoを実行すること。</p>
         </article>
@@ -252,13 +376,13 @@ export function createManualView({ onBack }: ManualViewOptions): HTMLElement {
           <div class="manual-card-label">別解</div>
           <h3>正しい小物入れをスタッフへ直接渡された</h3>
           <p class="manual-examples">「けっさく」のピースだけが入った正しい小物入れを渡され、「渡してほしい」「落としていた」と言われた場合。</p>
-          <blockquote>「落とし物ですかね？ ありがとうございます。渡してきますね。」</blockquote>
+          <blockquote>「これ、落とし物ですかね？ 分かりました。すぐに届けてくるので、カンニングとかしないでくださいね。」</blockquote>
           <ol>
             <li>小物入れを持って会場を出る。</li>
             <li>対象チームの「成功判定」をONにする。</li>
             <li>必要に応じて成功タイムを修正する。</li>
-            <li>少し時間を空けて「Go実行」を押し、成功エンディングを流す。</li>
-            <li>成功エンディングが始まってから会場へ戻る。</li>
+            <li>「Go実行」を押し、成功エンディングを流す。</li>
+            <li>会場へ戻り、小物入れをスタッフ机へ置く。</li>
           </ol>
         </article>
 
@@ -359,9 +483,10 @@ export function createManualView({ onBack }: ManualViewOptions): HTMLElement {
           <h3>体調不良・けが</h3>
           <ol>
             <li>対象チームのタイマーを一時停止する。</li>
-            <li>参加者の状態を確認し、必要に応じて着席・退出・救護対応を行う。</li>
+            <li>何があったかを確認し、必要に応じて着席・退出・救護対応を行う。</li>
+            <li>トイレなど一時中断で戻れそうな場合は、中断中に会場内の物へ触れないよう案内する。</li>
             <li>ほかのスタッフへ応援を求める。</li>
-            <li>再開できる場合は、必要に応じて残り時間を修正してから再開する。</li>
+            <li>参加者が戻り再開できる状態になったら、必要に応じて残り時間を修正してタイマーを再開する。</li>
           </ol>
           <p class="manual-note">ゲームの継続や成功判定より、参加者の安全を優先する。</p>
         </article>

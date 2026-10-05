@@ -289,6 +289,46 @@ button:disabled {
   margin-top: 7px;
 }
 
+.manual-role-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 14px 0;
+}
+
+.manual-role-grid > div {
+  padding: 14px;
+  border: 1px solid #3a4655;
+  border-radius: 10px;
+  background: #202832;
+}
+
+.manual-role-grid strong {
+  color: #91c1fa;
+}
+
+.manual-role-grid p {
+  margin: 6px 0 0;
+}
+
+.manual-branch-list > div {
+  margin-top: 12px;
+  padding: 14px;
+  border: 1px solid #3a4655;
+  border-radius: 10px;
+  background: #20252c;
+}
+
+.manual-branch-list dt {
+  margin-bottom: 8px;
+  color: #91c1fa;
+  font-weight: 800;
+}
+
+.manual-branch-list dd {
+  margin: 0;
+}
+
 .manual-checklist {
   padding-left: 0;
   list-style: none;
@@ -698,6 +738,10 @@ kbd {
   }
 
   .manual-status-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .manual-role-grid {
     grid-template-columns: 1fr;
   }
 

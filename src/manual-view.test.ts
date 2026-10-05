@@ -16,10 +16,20 @@ describe('staff manual', () => {
     document.body.appendChild(view);
 
     expect(view.textContent).toContain('本番の流れ');
+    expect(view.textContent).toContain('案内スタッフ');
+    expect(view.textContent).toContain('試験スタッフ');
+    expect(view.textContent).toContain('固い言葉で案内しない');
+    expect(view.textContent).toContain('11月祭謎解き試験に参加される方ですかね？');
+    expect(view.textContent).toContain('小学生未満は人数に数えなくてよい');
+    expect(view.textContent).toContain('間違いないですね？？');
+    expect(view.textContent).toContain('ポケットの中とか、スマートフォン、貴重品入ってないですか？');
+    expect(view.textContent).toContain('何かやりたいことがある場合は、思い切ってやってみていいですよ。');
+    expect(view.textContent).toContain('山平へ確認する');
+    expect(view.textContent).toContain('転換をダブルチェックする');
     expect(view.textContent).toContain('Web管理画面の使い方');
     expect(view.textContent).toContain('Ctrl');
     expect(view.textContent).toContain('最終行動の対応');
-    expect(view.textContent).toContain('平山……海……先生のか。');
+    expect(view.textContent).toContain('ひらやま……かい先生のか……。');
     expect(view.textContent).toContain('「けっさく」のピースだけが入った小物入れを、会場の床に落とす。');
     expect(view.textContent).toContain('エラーコードについて呼ばれた');
     expect(view.textContent).toContain('この対応は必須ではない。');
