@@ -348,6 +348,50 @@ button:disabled {
   line-height: 1.25;
 }
 
+.manual-turnover-images {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(240px, 0.7fr);
+  gap: 14px;
+  margin: 18px 0;
+}
+
+.manual-turnover-images figure {
+  overflow: hidden;
+  margin: 0;
+  border: 1px solid #3a4655;
+  border-radius: 10px;
+  background: #20252c;
+}
+
+.manual-turnover-images a {
+  display: flex;
+  height: 360px;
+  padding: 8px;
+  background: #f4f4f4;
+}
+
+.manual-turnover-images img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.manual-turnover-images figcaption {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 10px 12px 12px;
+}
+
+.manual-turnover-images figcaption strong {
+  color: #91c1fa;
+}
+
+.manual-turnover-images figcaption span {
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+}
+
 .manual-script blockquote,
 .manual-card blockquote {
   margin: 8px 0 14px;
@@ -743,6 +787,14 @@ kbd {
 
   .manual-role-grid {
     grid-template-columns: 1fr;
+  }
+
+  .manual-turnover-images {
+    grid-template-columns: 1fr;
+  }
+
+  .manual-turnover-images a {
+    height: min(70vh, 520px);
   }
 
   .manual-definition-list > div {

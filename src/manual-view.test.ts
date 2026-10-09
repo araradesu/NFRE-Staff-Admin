@@ -26,6 +26,13 @@ describe('staff manual', () => {
     expect(view.textContent).toContain('何かやりたいことがある場合は、思い切ってやってみていいですよ。');
     expect(view.textContent).toContain('山平へ確認する');
     expect(view.textContent).toContain('転換をダブルチェックする');
+    expect(view.textContent).toContain('退出後に転換する（1st）');
+    expect(view.textContent).toContain('余裕があれば1stとは別の人');
+    expect(view.textContent).toContain('電池の向きを確認して入れ直し');
+    expect(view.textContent).toContain('謎の箱に四桁錠を「0000」で取り付け、施錠する');
+    expect(view.textContent).toContain('10項目すべてを確認し、不足や置き間違いを直してからリセットする');
+    expect(view.querySelector<HTMLImageElement>('img[alt*="机上配置図"]')).not.toBeNull();
+    expect(view.querySelector<HTMLImageElement>('img[alt*="落とし物配置写真"]')).not.toBeNull();
     expect(view.textContent).toContain('雇われのスタッフ');
     expect(view.textContent).toContain('試験担当の先生の名前も事前には知らない');
     expect(view.textContent).toContain('Web管理画面の使い方');

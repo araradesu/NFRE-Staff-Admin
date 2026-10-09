@@ -1,4 +1,6 @@
 import { logout } from '../auth';
+import turnoverDeskLayoutUrl from '../assets/turnover-desk-layout.png';
+import turnoverLostItemsUrl from '../assets/turnover-lost-items.jpg';
 
 type ManualViewOptions = {
   onBack: () => void;
@@ -52,7 +54,7 @@ export function createManualView({ onBack }: ManualViewOptions): HTMLElement {
             <div><strong>案内スタッフ</strong><p>会場への案内・誘導、チーム分け、入場前後の説明、終了後の案内など、ゲーム外のメタ的な部分を担当する。</p></div>
             <div><strong>試験スタッフ</strong><p>オープニングの演技、試験開始、試験中の監視や声掛けなど、ゲーム内のストーリー的な部分を担当する。</p></div>
           </div>
-          <p class="manual-note">成功・失敗処理と転換は、空いている人が担当し、試験スタッフが率先する。転換のダブルチェックは、転換をしなかった人が率先する。</p>
+          <p class="manual-note">成功・失敗処理と転換は、空いている人が担当し、試験スタッフが率先する。転換は1stと2ndに分け、余裕があれば別のスタッフが担当する。人手が足りない場合は、1人で最後まで行ってもよい。</p>
         </article>
 
         <article class="manual-entry manual-card">
@@ -267,21 +269,57 @@ export function createManualView({ onBack }: ManualViewOptions): HTMLElement {
         </article>
 
         <article class="manual-entry manual-card">
-          <div class="manual-card-label">担当：空いている人（試験スタッフが率先）</div>
-          <h3>12．退出後に転換する</h3>
-          <ul class="manual-checklist">
-            <li>参加者の私物忘れがないか確認する</li>
-            <li>使用したピースと備品をすべて回収する</li>
-            <li>手帳・ペン・小物入れを初期位置へ戻す</li>
-            <li>PCが「転換チェック」または次回の開始待機へ進んだことを確認する</li>
-          </ul>
+          <div class="manual-card-label">1st：空いている人（試験スタッフが率先）</div>
+          <h3>12．退出後に転換する（1st）</h3>
+          <p>参加者の私物忘れがないことを確認してから、次の順番で会場を初期状態へ戻す。</p>
+          <ol>
+            <li>PCを「転換チェック」画面へ移行する。</li>
+            <li>ブラックライトを探し出し、中の電池を取り出す。電池の向きを確認して入れ直し、電池ケースに「古川」の紙が貼られていることを確認して、ケースを正しい向きでライトへ戻す。</li>
+            <li>ライト側のフタは強く締めすぎない。ブラックライトが点灯することを確認する。</li>
+            <li>謎の箱を「5963（ごくろうさん）」で開け、中の紙が剥がれていないことと、中に何も残っていないことを確認する。ブラックライトを網側へ入れ、チャックを中央まで閉める。四桁錠はまだ掛けず、謎の箱の上に置く。</li>
+            <li>エラーコードメモと説明用紙をスタッフ机へ持っていき、代わりに手帳とペンの落とし物を持ってくる。</li>
+            <li>手帳とペンを、落とし物配置写真と同じ位置で床へ置く。</li>
+            <li>4枚のピースを回収し、キーボード裏の袋へ入れる。</li>
+            <li>キーボードをモニターの前、マウスをキーボードの右側へ置く。参加者が動かさなくても自然に操作できるよう、キーボードは若干奥側に置く。</li>
+            <li>小物入れを開け、中の紙が剥がれていないことと、何も入っていないことを確認する。開けた状態でマウスの右側へ置く。</li>
+            <li>ノートを開き、ページ抜け・折り目・落書きがないことを確認する。表紙を上にして、キーボードの左側へ置く。</li>
+            <li>謎の箱をノートの奥へ置く。</li>
+            <li>モニターを一番上まで移動させる。</li>
+          </ol>
+          <div class="manual-turnover-images" aria-label="転換時の配置見本">
+            <figure>
+              <a href="${turnoverDeskLayoutUrl}" target="_blank" rel="noreferrer">
+                <img src="${turnoverDeskLayoutUrl}" alt="謎の箱、ノート、キーボード、マウス、小物入れの机上配置図">
+              </a>
+              <figcaption><strong>机上配置図</strong><span>画像を押すと拡大表示</span></figcaption>
+            </figure>
+            <figure>
+              <a href="${turnoverLostItemsUrl}" target="_blank" rel="noreferrer">
+                <img src="${turnoverLostItemsUrl}" alt="机の下に置かれた手帳とペンの落とし物配置写真">
+              </a>
+              <figcaption><strong>落とし物配置写真</strong><span>青い手帳は机の左奥、ペンは左手前の脚元</span></figcaption>
+            </figure>
+          </div>
+          <p class="manual-note">1stでは四桁錠を掛けない。謎の箱の中身は、ブラックライトを入れるときに一度だけ確認する。</p>
         </article>
 
         <article class="manual-entry manual-card manual-card-warning">
-          <div class="manual-card-label">担当：転換をしなかった人が率先</div>
-          <h3>13．転換をダブルチェックする</h3>
-          <p>転換を担当した本人だけで完了にせず、別のスタッフがアイテム・説明用紙・小物入れ・手帳・ペン・PCの状態を確認する。</p>
-          <p class="manual-note">一つでも不足や置き間違いがあれば、その場で直してから次のチームを案内する。</p>
+          <div class="manual-card-label">2nd：余裕があれば1stとは別の人</div>
+          <h3>13．転換をダブルチェックする（2nd）</h3>
+          <p>PCの転換チェック画面を見ながら、次の項目を一つずつ確認する。人手が足りない場合は、1stと同じ人が続けて確認してもよい。</p>
+          <ol>
+            <li>ブラックライトが正しく点灯する。</li>
+            <li>ブラックライトだけが謎の箱の中に入っている。</li>
+            <li>手帳とペンが、落とし物配置写真どおりに床へ置かれている。</li>
+            <li>4枚のピースが、キーボード裏の袋に入っている。</li>
+            <li>小物入れが空で、開いた状態で置かれている。</li>
+            <li>ノートにページ抜け・折り目・落書きがない。</li>
+            <li>謎の箱に四桁錠を「0000」で取り付け、施錠する。</li>
+            <li>アイテムが机上配置図どおりに置かれている。モニターの前にキーボード、その右にマウス、その右に小物入れ、キーボードの左にノート、ノートの奥に謎の箱があることを確認する。</li>
+            <li>机の裏・モニターの裏・天井・壁に、それぞれ紙が貼られている。</li>
+            <li>モニターが一番上まで移動している。</li>
+          </ol>
+          <p class="manual-note">10項目すべてを確認し、不足や置き間違いを直してからリセットする。</p>
         </article>
       </section>
 
