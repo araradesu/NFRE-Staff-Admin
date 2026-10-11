@@ -247,6 +247,12 @@ export function createManualView({ onBack }: ManualViewOptions): HTMLElement {
           <h3>10．成功パターン</h3>
           <p><strong>正規：</strong>参加者が正しい小物入れを「落とし物」としてスタッフへ直接渡した場合。</p>
           <p><strong>準正規：</strong>参加者が正しい小物入れを会場内へ実際に落とした場合。</p>
+          <ol>
+            <li>小物入れを受け取る前に、<blockquote>「届けに行ってきますが、中にある物は皆さんの物じゃないんですね？」</blockquote></li>
+            <li>私物ではないと言われたら、<blockquote>「届けに行ったら、中にある物は絶対に戻ってきませんが、大丈夫ですね？」</blockquote></li>
+            <li>「なんで？」と聞かれたら、<blockquote>「届け先に渡した後はこちらでは取り戻せないので、念のため確認しています。」</blockquote></li>
+            <li>私物が入っている可能性がある状態で「はい」と言われても、すぐには受け取らず、<blockquote>「本当に大丈夫ですか？ スマートフォンや貴重品など、皆さんの物は一切入っていないんですね？」</blockquote>ともう一度聞き返す。</li>
+          </ol>
           <blockquote>「これ、落とし物ですかね？ 分かりました。すぐに届けてくるので、カンニングとかしないでくださいね。」</blockquote>
           <ol>
             <li>正しい小物入れを持って会場を出る。</li>
@@ -437,6 +443,13 @@ export function createManualView({ onBack }: ManualViewOptions): HTMLElement {
         <article class="manual-entry manual-card manual-card-success">
           <div class="manual-card-label">正規・準正規共通</div>
           <h3>成功時の共通処理</h3>
+          <ol>
+            <li>小物入れを受け取る前に、<blockquote>「届けに行ってきますが、中にある物は皆さんの物じゃないんですね？」</blockquote></li>
+            <li>私物ではないと言われたら、<blockquote>「届けに行ったら、中にある物は絶対に戻ってきませんが、大丈夫ですね？」</blockquote></li>
+            <li>「なんで？」と聞かれたら、<blockquote>「届け先に渡した後はこちらでは取り戻せないので、念のため確認しています。」</blockquote></li>
+            <li>私物が入っている可能性がある状態で「はい」と言われても、すぐには受け取らない。<blockquote>「本当に大丈夫ですか？ スマートフォンや貴重品など、皆さんの物は一切入っていないんですね？」</blockquote>と、具体例を挙げてもう一度聞き返す。</li>
+            <li>再確認にも「はい」と答えられた場合は、その場ですぐに持ち去らず、山平へ確認する。</li>
+          </ol>
           <blockquote>「これ、落とし物ですかね？ 分かりました。すぐに届けてくるので、カンニングとかしないでくださいね。」</blockquote>
           <ol>
             <li>小物入れを持って会場を出る。</li>
@@ -518,9 +531,9 @@ export function createManualView({ onBack }: ManualViewOptions): HTMLElement {
 
         <article class="manual-entry manual-card manual-card-warning">
           <h3>本物の私物が落ちていた</h3>
-          <p>財布・スマートフォン・鍵など、参加者の本物の私物はゲームの最終行動として扱わない。</p>
+          <p>小物入れに入れられておらず、財布・スマートフォン・鍵など、参加者の本物の私物だけが床などに落ちていた場合。</p>
           <blockquote>「こちら、皆さんの落とし物ではありませんか？」</blockquote>
-          <p>持ち主を確認してすぐに返却する。ゲーム上の2回確認や成功・失敗処理には入れない。</p>
+          <p>持ち主を確認してすぐに返却する。小物入れごと渡された場合は、04「成功時の共通処理」にある私物確認を行う。</p>
         </article>
 
         <article class="manual-entry manual-card manual-card-danger">
