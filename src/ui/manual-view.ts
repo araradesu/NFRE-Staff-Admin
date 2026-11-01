@@ -247,13 +247,12 @@ export function createManualView({ onBack }: ManualViewOptions): HTMLElement {
           <h3>10．成功パターン</h3>
           <p><strong>正規：</strong>参加者が正しい小物入れを「落とし物」としてスタッフへ直接渡した場合。</p>
           <p><strong>準正規：</strong>参加者が正しい小物入れを会場内へ実際に落とした場合。</p>
+          <p><strong>「けっさく」のピースだけが入っている場合：</strong></p>
           <ol>
-            <li>小物入れを受け取る前に、<blockquote>「届けに行ってきますが、中にある物は皆さんの物じゃないんですね？」</blockquote></li>
-            <li>私物ではないと言われたら、<blockquote>「届けに行ったら、中にある物は絶対に戻ってきませんが、大丈夫ですね？」</blockquote></li>
-            <li>「なんで？」と聞かれたら、<blockquote>「届け先に渡した後はこちらでは取り戻せないので、念のため確認しています。」</blockquote></li>
-            <li>私物が入っている可能性がある状態で「はい」と言われても、すぐには受け取らず、<blockquote>「本当に大丈夫ですか？ スマートフォンや貴重品など、皆さんの物は一切入っていないんですね？」</blockquote>ともう一度聞き返す。</li>
+            <li>小物入れを受け取る前に、<blockquote>「こちら、落とし物ですか？」</blockquote></li>
+            <li>「はい」と言われたら、小物入れの裏に書かれた先生の名前を見せながら、<blockquote>「分かりました。ではこの方に届けてきますね。」</blockquote></li>
           </ol>
-          <blockquote>「これ、落とし物ですかね？ 分かりました。すぐに届けてくるので、カンニングとかしないでくださいね。」</blockquote>
+          <p class="manual-note">スマートフォンや貴重品など、本物の私物が入っている場合だけ、04「本物の私物が入っている可能性がある場合」の段階的な確認を行う。</p>
           <ol>
             <li>正しい小物入れを持って会場を出る。</li>
             <li>外で対象チームの「成功判定」をONにする。</li>
@@ -443,6 +442,14 @@ export function createManualView({ onBack }: ManualViewOptions): HTMLElement {
         <article class="manual-entry manual-card manual-card-success">
           <div class="manual-card-label">正規・準正規共通</div>
           <h3>成功時の共通処理</h3>
+          <p><strong>「けっさく」のピースだけが入っている場合：</strong></p>
+          <ol>
+            <li>小物入れを受け取る前に、<blockquote>「こちら、落とし物ですか？」</blockquote></li>
+            <li>「はい」と言われたら、小物入れの裏に書かれた先生の名前を参加者へ見せながら、<blockquote>「分かりました。ではこの方に届けてきますね。」</blockquote></li>
+          </ol>
+          <p class="manual-note">この正解パターンでは、下記の細かな私物確認は行わない。</p>
+          <h3>本物の私物が入っている可能性がある場合</h3>
+          <p class="manual-examples">例：小物入れにスマートフォンが入っており、画面に「けっさく」と表示されている場合。画像のような段階的確認は、この場合だけ行う。</p>
           <ol>
             <li>小物入れを受け取る前に、<blockquote>「届けに行ってきますが、中にある物は皆さんの物じゃないんですね？」</blockquote></li>
             <li>私物ではないと言われたら、<blockquote>「届けに行ったら、中にある物は絶対に戻ってきませんが、大丈夫ですね？」</blockquote></li>
@@ -451,6 +458,7 @@ export function createManualView({ onBack }: ManualViewOptions): HTMLElement {
             <li>再確認にも「はい」と答えられた場合は、その場ですぐに持ち去らず、山平へ確認する。</li>
           </ol>
           <blockquote>「これ、落とし物ですかね？ 分かりました。すぐに届けてくるので、カンニングとかしないでくださいね。」</blockquote>
+          <h3>どちらの場合も、確認が終わったら</h3>
           <ol>
             <li>小物入れを持って会場を出る。</li>
             <li>対象チームの「成功判定」をONにする。</li>
