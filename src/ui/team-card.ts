@@ -199,12 +199,17 @@ function buildCardDOM(card: HTMLElement, team: TeamState) {
   zeroBtn.dataset.teamId = teamId;
   zeroBtn.dataset.cmdType = 'SET_REMAINING_TIME';
   zeroBtn.dataset.value = '0';
-  const resetBtn = createBtn('15:00に戻す');
-  resetBtn.dataset.teamId = teamId;
-  resetBtn.dataset.cmdType = 'SET_REMAINING_TIME';
-  resetBtn.dataset.value = '900';
+  const resetNormalBtn = createBtn('ノーマル 20:00');
+  resetNormalBtn.dataset.teamId = teamId;
+  resetNormalBtn.dataset.cmdType = 'SET_REMAINING_TIME';
+  resetNormalBtn.dataset.value = '1200';
+  const resetHardBtn = createBtn('ハード 15:00');
+  resetHardBtn.dataset.teamId = teamId;
+  resetHardBtn.dataset.cmdType = 'SET_REMAINING_TIME';
+  resetHardBtn.dataset.value = '900';
   setTimeRow.appendChild(zeroBtn);
-  setTimeRow.appendChild(resetBtn);
+  setTimeRow.appendChild(resetNormalBtn);
+  setTimeRow.appendChild(resetHardBtn);
   detailPanel.appendChild(setTimeRow);
 
   // Direct Time Inputs
@@ -383,22 +388,22 @@ async function handleCardClick(e: Event, card: HTMLElement, getTeam: () => TeamS
     const min = minStr ? parseInt(minStr, 10) : 0;
     const sec = secStr ? parseInt(secStr, 10) : 0;
 
-    if (min < 0 || min > 15 || sec < 0 || sec > 59) {
-      errorMsg.textContent = '分は0～15、秒は0～59で入力してください';
+    if (min < 0 || min > 20 || sec < 0 || sec > 59) {
+      errorMsg.textContent = '分は0～20、秒は0～59で入力してください';
       errorMsg.style.display = 'block';
       return;
     }
 
     const totalSec = min * 60 + sec;
 
-    if (min === 15 && sec > 0) {
-      errorMsg.textContent = '15分を超える指定はできません';
+    if (min === 20 && sec > 0) {
+      errorMsg.textContent = '20分を超える指定はできません';
       errorMsg.style.display = 'block';
       return;
     }
 
-    if (totalSec > 900) {
-      errorMsg.textContent = '合計900秒以内で入力してください';
+    if (totalSec > 1200) {
+      errorMsg.textContent = '合計1200秒以内で入力してください';
       errorMsg.style.display = 'block';
       return;
     }

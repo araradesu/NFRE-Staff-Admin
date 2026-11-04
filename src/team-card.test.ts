@@ -437,7 +437,7 @@ describe('team-card', () => {
       expect(minInput.value).toBe('10');
     });
 
-    it('数字以外、秒60以上、15:01、900秒超過を拒否し、送信しない', async () => {
+    it('数字以外、秒60以上、20:01、1200秒超過を拒否し、送信しない', async () => {
       const team = makeTeam();
       const card = createTeamCard(team);
       document.body.appendChild(card);
@@ -466,19 +466,19 @@ describe('team-card', () => {
       await new Promise(r => setTimeout(r, 0));
       expect(errorMsg.textContent).toContain('0～59');
 
-      // 15:01
-      minInput.value = '15';
+      // 20:01
+      minInput.value = '20';
       secInput.value = '1';
       await btn.click();
       await new Promise(r => setTimeout(r, 0));
-      expect(errorMsg.textContent).toContain('15分を超える');
+      expect(errorMsg.textContent).toContain('20分を超える');
 
-      // 900秒超過 (e.g. 16:00)
-      minInput.value = '16';
+      // 1200秒超過 (e.g. 21:00)
+      minInput.value = '21';
       secInput.value = '0';
       await btn.click();
       await new Promise(r => setTimeout(r, 0));
-      expect(errorMsg.textContent).toContain('分は0～15');
+      expect(errorMsg.textContent).toContain('分は0～20');
     });
 
     it('分秒から合計秒へ正しく変換され、payloadが正しい', async () => {
@@ -516,6 +516,26 @@ describe('team-card', () => {
       await new Promise(r => setTimeout(r, 0));
 
       expect(sendCommand).toHaveBeenCalledWith('TEAM_01', 'SET_SUCCESS_TIME', { value: 605 }, expect.any(Object));
+    });
+
+    it('ノーマルモード上限の20:00を設定できる', async () => {
+      const team = makeTeam();
+      const card = createTeamCard(team);
+      document.body.appendChild(card);
+      vi.mocked(showConfirmDialog).mockResolvedValue(true);
+      vi.mocked(sendCommand).mockClear();
+
+      const btn = card.querySelector<HTMLButtonElement>('button[data-cmd-type="SET_REMAINING_TIME"][data-direct-btn="1"]')!;
+      const container = btn.closest('.direct-input-group')!;
+      const minInput = container.querySelector('.min-input') as HTMLInputElement;
+      const secInput = container.querySelector('.sec-input') as HTMLInputElement;
+
+      minInput.value = '20';
+      secInput.value = '0';
+      await btn.click();
+      await new Promise(r => setTimeout(r, 0));
+
+      expect(sendCommand).toHaveBeenCalledWith('TEAM_01', 'SET_REMAINING_TIME', { value: 1200 }, expect.any(Object));
     });
 
     it('成功判定OFFでは成功タイム設定不可', () => {
