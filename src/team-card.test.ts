@@ -180,6 +180,18 @@ describe('team-card', () => {
     expect(card.dataset.expanded).toBe('1'); // 維持
   });
 
+  it('初期時間へ戻す操作は20:00だけを表示する', () => {
+    const card = createTeamCard(makeTeam());
+    const resetButtons = card.querySelectorAll<HTMLButtonElement>(
+      'button[data-cmd-type="SET_REMAINING_TIME"][data-value="1200"]',
+    );
+
+    expect(resetButtons).toHaveLength(1);
+    expect(resetButtons[0].textContent).toBe('20:00に戻す');
+    expect(card.textContent).not.toContain('ハード');
+    expect(card.textContent).not.toContain('ノーマル');
+  });
+
   it('成功判定トグルはSTATE反映後のチーム状態を表示する（楽観的更新なし）', () => {
     const team = makeTeam({ is_staff_success: false });
     const card = createTeamCard(team);
@@ -518,7 +530,7 @@ describe('team-card', () => {
       expect(sendCommand).toHaveBeenCalledWith('TEAM_01', 'SET_SUCCESS_TIME', { value: 605 }, expect.any(Object));
     });
 
-    it('ノーマルモード上限の20:00を設定できる', async () => {
+    it('正規上限の20:00を設定できる', async () => {
       const team = makeTeam();
       const card = createTeamCard(team);
       document.body.appendChild(card);

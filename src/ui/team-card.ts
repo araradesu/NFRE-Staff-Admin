@@ -199,17 +199,12 @@ function buildCardDOM(card: HTMLElement, team: TeamState) {
   zeroBtn.dataset.teamId = teamId;
   zeroBtn.dataset.cmdType = 'SET_REMAINING_TIME';
   zeroBtn.dataset.value = '0';
-  const resetNormalBtn = createBtn('ノーマル 20:00');
-  resetNormalBtn.dataset.teamId = teamId;
-  resetNormalBtn.dataset.cmdType = 'SET_REMAINING_TIME';
-  resetNormalBtn.dataset.value = '1200';
-  const resetHardBtn = createBtn('ハード 15:00');
-  resetHardBtn.dataset.teamId = teamId;
-  resetHardBtn.dataset.cmdType = 'SET_REMAINING_TIME';
-  resetHardBtn.dataset.value = '900';
+  const resetTimerBtn = createBtn('20:00に戻す');
+  resetTimerBtn.dataset.teamId = teamId;
+  resetTimerBtn.dataset.cmdType = 'SET_REMAINING_TIME';
+  resetTimerBtn.dataset.value = '1200';
   setTimeRow.appendChild(zeroBtn);
-  setTimeRow.appendChild(resetNormalBtn);
-  setTimeRow.appendChild(resetHardBtn);
+  setTimeRow.appendChild(resetTimerBtn);
   detailPanel.appendChild(setTimeRow);
 
   // Direct Time Inputs

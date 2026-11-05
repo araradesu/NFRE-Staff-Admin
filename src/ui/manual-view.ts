@@ -201,7 +201,7 @@ export function createManualView({ onBack }: ManualViewOptions): HTMLElement {
             <li>確認画面でもう一度「実行」を押す。</li>
             <li>カウントダウンが始まったら、手帳を持って部屋を出る。</li>
             <li>手帳をポケットなどへ隠して部屋に戻り、スタッフ机へ置く。</li>
-            <li>5カウント後、選択したモード（ノーマル20:00／ハード15:00）の時間から試験が始まったことを確認する。</li>
+            <li>5カウント後、20:00から試験が始まったことを確認する。</li>
           </ol>
           <p class="manual-note">別チームのカードを押さないように注意すること。</p>
         </article>
@@ -369,7 +369,7 @@ export function createManualView({ onBack }: ManualViewOptions): HTMLElement {
           <dl class="manual-definition-list">
             <div><dt>一時停止／再開</dt><dd>安全対応や機器トラブルで試験を止める場合に使用。</dd></div>
             <div><dt>0秒にする</dt><dd>残り時間を強制的に00:00へ変更する。</dd></div>
-            <div><dt>ノーマル20:00／ハード15:00</dt><dd>選択したモードの初期時間へ戻す。別モードを押さないよう注意する。</dd></div>
+            <div><dt>20:00に戻す</dt><dd>残り時間を正規の初期時間へ戻す。</dd></div>
             <div><dt>残り時間直接指定</dt><dd>分・秒を指定して残り時間を修正する。</dd></div>
             <div><dt>成功タイム直接指定</dt><dd>成功判定ONのチームだけ、記録時間を訂正できる。</dd></div>
             <div><dt>緊急復旧・強制移動</dt><dd>画面停止などの復旧専用。現在地と移動先を確認してから使う。</dd></div>
