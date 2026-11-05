@@ -43,6 +43,9 @@ describe('staff manual', () => {
     expect(view.textContent).toContain('正しい小物入れを会場内へ実際に落とす');
     expect(view.textContent).toContain('こちら、落とし物ですか？');
     expect(view.textContent).toContain('分かりました。ではこの方に届けてきますね。');
+    expect(view.textContent).toContain('先生への提出物ということでしょうか？ それとも、落とし物として届けてほしいということでしょうか？');
+    expect(view.textContent).toContain('提出物を代わりにお預かりするようには言われていないので、こちらでは受け取れないです。');
+    expect(view.textContent).toContain('成功判定はONにしない');
     expect(view.textContent).toContain('本物の私物が入っている場合だけ');
     expect(view.textContent).toContain('画面に「けっさく」と表示されている場合');
     expect(view.textContent).toContain('この正解パターンでは、下記の細かな私物確認は行わない。');
